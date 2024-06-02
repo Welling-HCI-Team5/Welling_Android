@@ -62,4 +62,5 @@ fun BtnMainColor(
             fontFamily = FontFamily(Font(R.font.pretendard_semibold))
         )
     }
+    Spacer(modifier = Modifier.height(40.dp))
 }
