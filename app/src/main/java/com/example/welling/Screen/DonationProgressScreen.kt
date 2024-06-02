@@ -64,12 +64,12 @@ fun DonationProgressScreen(navController: NavHostController) {
             ) {
                 Text(
                     text = "$190.00",
-                    style = MaterialTheme.typography.headlineMedium.copy(color = Color.Gray),
+                    style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
                     text = "15일 남았어요",
-                    style = MaterialTheme.typography.headlineMedium.copy(color = Color(0xFF8BC34A)),
+                    style = MaterialTheme.typography.bodyLarge.copy(color = Color(0xFF8BC34A)),
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
