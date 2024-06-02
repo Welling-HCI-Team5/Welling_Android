@@ -8,7 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,19 +34,19 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(24.dp)
     ) {
         CustomTextBox(
             text = "관심 분야 설정",
             colorId = R.color.black,
-            fontSize = 20.sp,
-            fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+            fontSize = 25.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
             textOnClick = null,
             spacerHeight = 8.dp
         )
         CustomTextBox(
             text = "관심 있는 분야를 선택해주세요.",
-            colorId = R.color.gray_e3e5e5,
+            colorId = R.color.gray_6c7072,
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
             textOnClick = null,
@@ -67,8 +67,12 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                         val isSelected = selectedCategories.contains(category)
                         Surface(
                             shape = RoundedCornerShape(20.dp),
-                            color = if (isSelected) Color(0xFFCCFF90) else Color.White,
-                            border = BorderStroke(1.dp, if (isSelected) Color(0xFFCCFF90) else Color.LightGray.copy(alpha = 0.5f)),
+                            color = if (isSelected) colorResource(id = R.color.light_green) else colorResource(
+                                id = R.color.white
+                            ),
+                            border = BorderStroke(1.dp, if (isSelected) colorResource(id = R.color.light_green) else colorResource(
+                                id = R.color.gray_F2F4F5
+                            ).copy(alpha = 0.5f)),
                             modifier = Modifier
                                 .padding(7.dp)
                                 .clickable {
@@ -84,7 +88,9 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                                 fontSize = 16.sp,
-                                color = if (isSelected) Color(0xFF8BC34A) else Color.Black
+                                color = if (isSelected) colorResource(id = R.color.main_color_deep) else colorResource(
+                                    id = R.color.black
+                                )
                             )
                         }
                     }
