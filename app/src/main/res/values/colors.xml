@@ -8,4 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_color">#A4D41C</color>
+    <color name="semi_black">#090A0A</color>
+    <color name="gray_e3e5e5">#E3E5E5</color>
+    <color name="gray_6c7072">#6C7072</color>
+    <color name="purple_5e5873">#5E5873</color>
 </resources>
