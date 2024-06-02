@@ -1,4 +1,4 @@
-package com.example.welling.Component
+package com.example.welling.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

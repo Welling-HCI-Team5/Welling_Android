@@ -1,4 +1,4 @@
-package com.example.welling.Screen
+package com.example.welling.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
@@ -39,13 +39,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.welling.Component.BtnMainColor
-import com.example.welling.Component.CustomTextBox
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.welling.component.BtnMainColor
+import com.example.welling.component.CustomTextBox
 import com.example.welling.R
+import com.example.welling.ui.theme.WellingTheme
 
-@Preview
+
 @Composable
-fun DonationDetailScreen() {
+fun DonationDetailScreen(navController: NavHostController) {
     val context = LocalContext.current
     val scrollState = rememberScrollState() // 스크롤 상태를 기억
 
@@ -288,5 +291,13 @@ fun AuthorInfoBox(
                 .size(64.dp)
                 .clip(RoundedCornerShape(10.dp))
         )
+    }
+}
+
+@Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
+@Composable
+fun Detail_DefaultPreview() {
+    WellingTheme {
+        DonationDetailScreen(rememberNavController())
     }
 }

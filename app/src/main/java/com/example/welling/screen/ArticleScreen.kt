@@ -1,4 +1,4 @@
-package com.example.welling.Screen
+package com.example.welling.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -20,14 +20,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.welling.Component.BtnMainColor
-import com.example.welling.Component.CustomTextBox
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.welling.component.BtnMainColor
+import com.example.welling.component.CustomTextBox
 import com.example.welling.R
+import com.example.welling.ui.theme.WellingTheme
+import com.example.welling.component.NavigationComponent
 
 @Composable
-fun ArticleScreen() {
+fun ArticleScreen(navController: NavHostController) {
     val context = LocalContext.current
     val scrollState = rememberScrollState() // 스크롤 상태를 기억
 
@@ -94,8 +99,17 @@ fun ArticleScreen() {
                 text = "관련 기부 진행하기",
                 onClick = {
                     Toast.makeText(context, "관련 기부 진행하기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
+                    navController.navigate("donation_detail_screen")
                 }
             )
         }
+    }
+}
+
+@Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
+@Composable
+fun Article_DefaultPreview() {
+    WellingTheme {
+        ArticleScreen(rememberNavController())
     }
 }

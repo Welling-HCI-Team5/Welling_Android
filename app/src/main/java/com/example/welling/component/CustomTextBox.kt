@@ -1,4 +1,4 @@
-package com.example.welling.Component
+package com.example.welling.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
