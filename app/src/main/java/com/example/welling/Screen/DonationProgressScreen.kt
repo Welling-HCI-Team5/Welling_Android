@@ -14,12 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
-
+import com.example.welling.Component.BtnMainColor
+import com.example.welling.Component.CustomTextBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,21 +46,10 @@ fun DonationProgressScreen(navController: NavHostController) {
             )
         },
         bottomBar = {
-            Button(
-                onClick = { /* TODO: 기부 완료 로직 추가 */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8BC34A))
-            ) {
-                Text(
-                    text = "기부 완료하러 가기",
-                    color = Color.White,
-                    fontSize = 16.sp
-                )
-            }
+            BtnMainColor(
+                text = "기부 완료하러 가기",
+                onClick = { /* TODO: 기부 완료 로직 추가 */ }
+            )
         }
     ) { innerPadding ->
         Column(
@@ -66,25 +59,34 @@ fun DonationProgressScreen(navController: NavHostController) {
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
+            CustomTextBox(
                 text = "공정무역 청소년을 위한 기부",
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(bottom = 8.dp)
+                colorId = R.color.black,
+                fontSize = 20.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                textOnClick = null,
+                spacerHeight = 8.dp
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                CustomTextBox(
                     text = "$190.00",
-                    style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    colorId = R.color.gray_e3e5e5,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    textOnClick = null,
+                    spacerHeight = 4.dp
                 )
-                Text(
+                CustomTextBox(
                     text = "15일 남았어요",
-                    style = MaterialTheme.typography.bodyLarge.copy(color = Color(0xFF8BC34A)),
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    colorId = R.color.main_color,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    textOnClick = null,
+                    spacerHeight = 4.dp
                 )
             }
             Row(
@@ -99,16 +101,23 @@ fun DonationProgressScreen(navController: NavHostController) {
                     color = Color(0xFF8BC34A)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
+                CustomTextBox(
                     text = "30%",
-                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+                    colorId = R.color.gray_e3e5e5,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    textOnClick = null,
+                    spacerHeight = 0.dp
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
+            CustomTextBox(
                 text = "기부 금액",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(vertical = 8.dp)
+                colorId = R.color.black,
+                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                textOnClick = null,
+                spacerHeight = 8.dp
             )
             OutlinedTextField(
                 value = customAmount,
@@ -150,10 +159,13 @@ fun DonationProgressScreen(navController: NavHostController) {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
+            CustomTextBox(
                 text = "기부 정기성 입력",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(vertical = 8.dp)
+                colorId = R.color.black,
+                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                textOnClick = null,
+                spacerHeight = 8.dp
             )
             Row(
                 modifier = Modifier
@@ -184,4 +196,10 @@ fun DonationProgressScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(80.dp))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewDonationProgressScreen() {
+    DonationProgressScreen(navController = rememberNavController())
 }

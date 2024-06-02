@@ -9,11 +9,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
+import com.example.welling.Component.BtnMainColor
+import com.example.welling.Component.CustomTextBox
+import com.example.welling.R
 
 @Composable
 fun StartSettingScreen(navController: NavHostController, mainViewModel: MainViewModel) {
@@ -30,21 +36,21 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
+        CustomTextBox(
             text = "관심 분야 설정",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .align(Alignment.Start)
+            colorId = R.color.black,
+            fontSize = 20.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+            textOnClick = null,
+            spacerHeight = 8.dp
         )
-        Text(
+        CustomTextBox(
             text = "관심 있는 분야를 선택해주세요.",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .align(Alignment.Start),
-            color = Color.Gray
+            colorId = R.color.gray_e3e5e5,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            textOnClick = null,
+            spacerHeight = 32.dp
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -64,7 +70,7 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                             color = if (isSelected) Color(0xFFCCFF90) else Color.White,
                             border = BorderStroke(1.dp, if (isSelected) Color(0xFFCCFF90) else Color.LightGray.copy(alpha = 0.5f)),
                             modifier = Modifier
-                                .padding(horizontal = 6.dp, vertical = 6.dp)
+                                .padding(7.dp)
                                 .clickable {
                                     if (isSelected) {
                                         selectedCategories.remove(category)
@@ -75,8 +81,8 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                         ) {
                             Text(
                                 text = category,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                                 fontSize = 16.sp,
                                 color = if (isSelected) Color(0xFF8BC34A) else Color.Black
                             )
@@ -85,21 +91,19 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                 }
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
-        Button(
+        Spacer(modifier = Modifier.weight(1f))
+        BtnMainColor(
+            text = "다음",
             onClick = {
                 mainViewModel.setFirstLaunchCompleted()
                 navController.navigate("main")
-            },
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(
-                text = "다음",
-                color = Color.White,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-        }
+            }
+        )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStartSettingScreen() {
+    StartSettingScreen(navController = rememberNavController(), mainViewModel = MainViewModel())
 }
