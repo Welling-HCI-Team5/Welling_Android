@@ -1,93 +1,172 @@
-package com.example.welling.ui.screens
+package com.example.welling.Screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.welling.ui.components.DonationAmountSelector
-import com.example.welling.ui.components.ProgressIndicator
+import androidx.navigation.NavHostController
 
 @Composable
-fun DonationProgressScreen() {
-    val donationAmounts = listOf(5, 10, 15, 25)
-    var selectedAmount by remember { mutableStateOf(donationAmounts[1]) }
+fun DonationProgressScreen(navController: NavHostController) {
+    val donationAmounts = listOf(5, 15, 25)
+    val selectedAmount = remember { mutableStateOf<Int?>(null) }
     val regularityOptions = listOf("이번 한 번만 할게요", "매달", "3달 마다 한 번")
-    var selectedRegularity by remember { mutableStateOf(regularityOptions[0]) }
+    val selectedRegularity = remember { mutableStateOf(regularityOptions[0]) }
+    var customAmount by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "공정무역 청소년을 위한 기부",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        ProgressIndicator(
-            progress = 0.3f,
-            labelText = "기부 진행 상황",
-            amountText = "$190.00",
-            remainingDaysText = "15일 남았어요"
-        )
-        Text(
-            text = "기부 금액",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-        DonationAmountSelector(
-            donationAmounts = donationAmounts,
-            selectedAmount = selectedAmount,
-            onAmountSelected = { selectedAmount = it }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "기부 정기성 입력",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            regularityOptions.forEach { option ->
-                val isSelected = selectedRegularity == option
-                Surface(
-                    shape = RoundedCornerShape(20.dp),
-                    color = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else Color.White,
-                    border = BorderStroke(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else Color.LightGray),
-                    modifier = Modifier
-                        .clickable { selectedRegularity = option }
-                ) {
-                    Text(
-                        text = option,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        fontSize = 16.sp,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
-                    )
-                }
+    Scaffold(
+        bottomBar = {
+            Button(
+                onClick = { /* TODO: 기부 완료 로직 추가 */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8BC34A))
+            ) {
+                Text(
+                    text = "기부 완료하러 가기",
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
-        Button(
-            onClick = { /* TODO: 기부 완료 로직 추가 */ },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "기부 완료하러 가기",
-                color = Color.White,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                text = "공정무역 청소년을 위한 기부",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$190.00",
+                    style = MaterialTheme.typography.headlineMedium.copy(color = Color.Gray),
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "15일 남았어요",
+                    style = MaterialTheme.typography.headlineMedium.copy(color = Color(0xFF8BC34A)),
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                LinearProgressIndicator(
+                    progress = 0.3f,
+                    modifier = Modifier.weight(1f),
+                    color = Color(0xFF8BC34A)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "30%",
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "기부 금액",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+            OutlinedTextField(
+                value = customAmount,
+                onValueChange = {
+                    customAmount = it
+                    selectedAmount.value = null
+                },
+                label = { Text(text = "직접 금액 입력") },
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = { Text(text = "$", style = MaterialTheme.typography.bodyMedium) },
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                donationAmounts.forEach { amount ->
+                    val isSelected = selectedAmount.value == amount
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = if (isSelected) Color(0xFFCCFF90) else Color.White,
+                        border = BorderStroke(1.dp, if (isSelected) Color(0xFF8BC34A) else Color.LightGray),
+                        modifier = Modifier
+                            .clickable {
+                                customAmount = ""
+                                selectedAmount.value = amount
+                            }
+                    ) {
+                        Text(
+                            text = "$$amount.00",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            fontSize = 16.sp,
+                            color = if (isSelected) Color(0xFF8BC34A) else Color.Black
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "기부 정기성 입력",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                regularityOptions.forEach { option ->
+                    val isSelected = selectedRegularity.value == option
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = if (isSelected) Color(0xFFCCFF90) else Color.White,
+                        border = BorderStroke(1.dp, if (isSelected) Color(0xFF8BC34A) else Color.LightGray),
+                        modifier = Modifier
+                            .clickable { selectedRegularity.value = option }
+                    ) {
+                        Text(
+                            text = option,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            fontSize = 16.sp,
+                            color = if (isSelected) Color(0xFF8BC34A) else Color.Black
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }

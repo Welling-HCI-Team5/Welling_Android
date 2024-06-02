@@ -17,12 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.welling.Screen.MainScreen
-import com.example.welling.Screen.NotificationsScreen
-import com.example.welling.Screen.StartSettingScreen
-import com.example.welling.Screen.TalentDonationScreen
 import com.example.welling.ui.theme.WellingTheme
-import com.example.welling.ui.screens.*
+import com.example.welling.Screen.*
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
@@ -46,7 +42,7 @@ fun WellingApp(mainViewModel: MainViewModel) {
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != "start_setting") {
+            if (currentRoute != "start_setting" && currentRoute != "donation_progress") {
                 BottomNavigationBar(navController)
             }
         }
@@ -57,8 +53,8 @@ fun WellingApp(mainViewModel: MainViewModel) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("start_setting") { StartSettingScreen(navController, mainViewModel) }
-            composable("main") { MainScreen() }
-            composable("donation_progress") { DonationProgressScreen() }
+            composable("main") { MainScreen(navController) }
+            composable("donation_progress") { DonationProgressScreen(navController) }
             composable("talent_donation") { TalentDonationScreen() }
             composable("notifications") { NotificationsScreen() }
             composable("my_page") { MyPageScreen() }

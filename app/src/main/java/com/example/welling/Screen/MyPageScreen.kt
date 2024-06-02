@@ -1,4 +1,4 @@
-package com.example.welling.ui.screens
+package com.example.welling.Screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
