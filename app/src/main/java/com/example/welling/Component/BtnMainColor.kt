@@ -16,30 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.welling.R
-
-@Composable
-fun CustomTextBox(
-    text: String,
-    colorId: Int,
-    fontSize: TextUnit,
-    fontFamily: FontFamily,
-    textOnClick: (() -> Unit)?,
-    spacerHeight: Dp,
-) {
-    Text(
-        text = text,
-        color = colorResource(id = colorId),
-        fontSize = fontSize,
-        fontFamily = fontFamily,
-        modifier = if (textOnClick != null) Modifier.clickable(onClick = textOnClick) else Modifier
-    )
-    Spacer(modifier = Modifier.height(spacerHeight))
-}
 
 @Composable
 fun BtnMainColor(
