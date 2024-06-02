@@ -13,11 +13,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.welling.R
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DonationProgressScreen(navController: NavHostController) {
     val donationAmounts = listOf(5, 15, 25)
@@ -27,6 +31,16 @@ fun DonationProgressScreen(navController: NavHostController) {
     var customAmount by remember { mutableStateOf("") }
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_back), contentDescription = "Back")
+                    }
+                }
+            )
+        },
         bottomBar = {
             Button(
                 onClick = { /* TODO: 기부 완료 로직 추가 */ },
@@ -102,6 +116,7 @@ fun DonationProgressScreen(navController: NavHostController) {
                     customAmount = it
                     selectedAmount.value = null
                 },
+                shape = RoundedCornerShape(12.dp),
                 label = { Text(text = "직접 금액 입력") },
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = { Text(text = "$", style = MaterialTheme.typography.bodyMedium) },
