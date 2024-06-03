@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.welling.R
-import com.example.welling.Component.CustomTextBox
+import com.example.welling.component.CustomTextBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

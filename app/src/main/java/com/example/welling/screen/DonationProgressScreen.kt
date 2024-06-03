@@ -1,4 +1,4 @@
-package com.example.welling.Screen
+package com.example.welling.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,8 +23,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
-import com.example.welling.Component.BtnMainColor
-import com.example.welling.Component.CustomTextBox
+import com.example.welling.component.BtnMainColor
+import com.example.welling.component.CustomTextBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
