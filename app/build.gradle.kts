@@ -65,6 +65,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager-indicators:0.20.2")
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.transport.runtime)
+    implementation(libs.firebase.components)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
