@@ -1,5 +1,6 @@
 package com.example.welling.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,13 +16,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,17 +50,62 @@ import com.example.welling.component.TabItem
 import com.example.welling.component.BottomNavigationBar
 
 
+
+
 // 후원 화면
+
+data class DonationItemData(
+    val imageRes: Int,
+    val title: String,
+    val progress: Float,
+    val progressText: String,
+    val money: String
+)
+
+
 @Composable
 fun Main_Donation_Screen(navController: NavHostController) {
+    val donationItems = listOf(
+        DonationItemData(
+            imageRes = R.drawable.donation_1,
+            title = "불공정무역 청소년을 위한 기부",
+            money = "\$85000 (미국 달러 기준)",
+            progress = 0.55f,
+            progressText = "55%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.grandma,
+            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
+            money = "\$45000 (미국 달러 기준)",
+            progress = 0.40f,
+            progressText = "40%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.water,
+            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
+            money = "\$35000 (미국 달러 기준)",
+            progress = 0.75f,
+            progressText = "75%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.goat,
+            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+            money = "\$105000 (미국 달러 기준)",
+            progress = 0.10f,
+            progressText = "10%"
+        )
+    )
+
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // 패딩을 Scaffold의 contentPadding과 일치시키기 위해 innerPadding 사용
+                .padding(innerPadding)// 패딩을 Scaffold의 contentPadding과 일치시키기 위해 innerPadding 사용
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
+               //
         ) {
             Donation_Header()
             Spacer(modifier = Modifier.height(30.dp))
@@ -64,6 +114,86 @@ fun Main_Donation_Screen(navController: NavHostController) {
             Donation_Categories()
             Spacer(modifier = Modifier.height(20.dp))
             Donation_Recommendation()
+           // Spacer(modifier = Modifier.height(16.dp))
+/*
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(donationItems) { item ->
+                    Main_DonationItem(
+                        imageRes = item.imageRes,
+                        title = item.title,
+                        money = item.money,
+                        progress = item.progress,
+                        progressText = item.progressText
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+ */
+            // LazyColumn to display the donation items
+            donationItems.forEach { item ->
+                Main_DonationItem(
+                    imageRes = item.imageRes,
+                    title = item.title,
+                    money = item.money,
+                    progress = item.progress,
+                    progressText = item.progressText
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+        }
+    }
+}
+
+@Composable
+fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Float, progressText: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(10.dp))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(imageRes), // 아이템 이미지
+            contentDescription = null,
+            modifier = Modifier
+                .size(80.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.Gray)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 20.sp
+            )
+            Text(
+                text = money,
+                fontSize = 12.sp,
+                color = Color(0xFF303437),
+                fontWeight = FontWeight.Medium,
+                lineHeight = 16.sp
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                LinearProgressIndicator(
+                    progress = progress,
+                    modifier = Modifier
+                        .width(176.dp)
+                        .height(11.dp),
+                    color = Color(0xFFA4D41C)
+                )
+                Text(
+                    text = progressText,
+                    color = Color(0xFF6C7072),
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+            }
         }
     }
 }
@@ -75,7 +205,8 @@ fun Main_Donation_Screen(navController: NavHostController) {
 @Composable
 fun Donation_Header() {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -210,30 +341,44 @@ fun Donation_FeaturedStory(navController: NavHostController) {
 
 @Composable
 fun Donation_Categories() {
+    val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
+    val selectedCategories = remember { mutableStateListOf<String>() }
+
     Row(
-        horizontalArrangement = Arrangement.spacedBy(1.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.horizontalScroll(rememberScrollState())
     ) {
-        Donation_CategoryButton("가난")
-        Donation_CategoryButton("성평등")
-        Donation_CategoryButton("재능 기부")
-        Donation_CategoryButton("빈곤")
-        Donation_CategoryButton("쓰레기")
+        val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
+
+        orderedCategories.forEach { category ->
+            Donation_CategoryButton(
+                text = category,
+                isSelected = category in selectedCategories,
+                onClick = {
+                    if (category in selectedCategories) {
+                        selectedCategories.remove(category)
+                    } else {
+                        selectedCategories.add(category)
+                    }
+                }
+            )
+        }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-fun Donation_CategoryButton(text: String) {
-    val backgroundColor = if (text == "가난") Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
-    val textColor = if (text == "가난") Color(0xFFA4D41C) else Color(0xFF090A0A)
+fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
+    val backgroundColor = if (isSelected) Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
+    val textColor = if (isSelected) Color(0xFFA4D41C) else Color(0xFF090A0A)
 
     Box(
         modifier = Modifier
             .height(32.dp)
             .background(backgroundColor, shape = RoundedCornerShape(32.dp))
             .padding(horizontal = 16.dp, vertical = 5.dp)
+            .clickable(onClick = onClick)
     ) {
         Text(
             text = text,
@@ -252,8 +397,8 @@ fun Donation_Recommendation() {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Donation_TabRow()
-        Spacer(modifier = Modifier.height(16.dp))
-        Donation_Item()
+        //Spacer(modifier = Modifier.height(16.dp))
+        //Donation_Item()
     }
 }
 
@@ -273,50 +418,7 @@ fun Donation_TabRow() {
 }
 
 
-@Composable
-fun Donation_Item() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(R.drawable.donation_1),
-            contentDescription = null,
-            modifier = Modifier
-                .size(80.dp)
-                .background(Color.Gray, shape = RoundedCornerShape(8.dp))
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = "불공정무역 청소년을 위한 기부",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                lineHeight = 20.sp
-            )
-            Text(
-                text = "$85000 (미국 달러 기준)",
-                fontSize = 12.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Medium,
-                lineHeight = 16.sp
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                LinearProgressIndicator(
-                    progress = 0.55f,
-                    modifier = Modifier.width(176.dp).height(11.dp), // 막대 바의 길이 조정
-                    color = Color(0xFFA4D41C)
-                )
-                Text(
-                    text = "55%",
-                    color = Color(0xFF6C7072),
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(start = 4.dp)
-                )
-            }
-        }
-    }
-}
+
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
 @Composable
