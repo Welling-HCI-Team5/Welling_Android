@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -45,7 +46,7 @@ import com.example.welling.ui.theme.WellingTheme
 import com.example.welling.component.TabItem
 import com.example.welling.component.BottomNavigationBar
 
-data class DonationItemData(
+data class AbilityItemData(
     val imageRes: Int,
     val title: String,
     val description: String,
@@ -56,28 +57,28 @@ data class DonationItemData(
 @Composable
 fun Ability_Donation_Screen(navController: NavHostController) {
     val donationItems = listOf(
-        DonationItemData(
+        AbilityItemData(
             imageRes = R.drawable.smile,
             title = "아프리카에서 한국어 선생님을 모집합니다",
             description = "아프리카 케냐 (항공 지원)",
             progress = 0.55f,
             progressText = "55%"
         ),
-        DonationItemData(
+        AbilityItemData(
             imageRes = R.drawable.grandma,
             title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
             description = "서울시 송파구 (사랑나눔재단)",
             progress = 0.40f,
             progressText = "40%"
         ),
-        DonationItemData(
+        AbilityItemData(
             imageRes = R.drawable.water,
             title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
             description = "온라인",
             progress = 0.75f,
             progressText = "75%"
         ),
-        DonationItemData(
+        AbilityItemData(
             imageRes = R.drawable.goat,
             title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
             description = "호주 시드니",
@@ -93,6 +94,7 @@ fun Ability_Donation_Screen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState()) // Enable vertical scrolling
                 .padding(16.dp)
         ) {
             Ability_Header()
@@ -104,19 +106,15 @@ fun Ability_Donation_Screen(navController: NavHostController) {
             Ability_DonationRecommendation()
             Spacer(modifier = Modifier.height(16.dp))
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(donationItems) { item ->
-                    Ability_DonationItem(
-                        imageRes = item.imageRes,
-                        title = item.title,
-                        description = item.description,
-                        progress = item.progress,
-                        progressText = item.progressText
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
+            donationItems.forEach { item ->
+                Ability_DonationItem(
+                    imageRes = item.imageRes,
+                    title = item.title,
+                    description = item.description,
+                    progress = item.progress,
+                    progressText = item.progressText
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
