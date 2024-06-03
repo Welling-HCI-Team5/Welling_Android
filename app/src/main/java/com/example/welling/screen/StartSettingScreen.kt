@@ -1,4 +1,4 @@
-package com.example.welling.Screen
+package com.example.welling.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -17,9 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
-import com.example.welling.Component.BtnMainColor
-import com.example.welling.Component.CustomTextBox
+
 import com.example.welling.R
+import com.example.welling.component.BtnMainColor
+import com.example.welling.component.CustomTextBox
+
 
 @Composable
 fun StartSettingScreen(navController: NavHostController, mainViewModel: MainViewModel) {
@@ -102,7 +104,7 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
             text = "다음",
             onClick = {
                 mainViewModel.setFirstLaunchCompleted()
-                navController.navigate("main")
+                navController.navigate("main_donation") // Ensure this matches the destination in your NavHost
             }
         )
     }
