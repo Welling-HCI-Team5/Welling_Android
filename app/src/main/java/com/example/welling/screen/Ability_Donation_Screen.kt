@@ -325,7 +325,8 @@ fun Ability_TabRow() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         TabItem(text = "인기 목록", isSelected = selectedTab == "인기 목록") { selectedTab = "인기 목록" }
         TabItem(text = "국내 모집", isSelected = selectedTab == "국내 모집") { selectedTab = "국내 모집" }
