@@ -2,10 +2,20 @@ package com.example.welling.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -16,15 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.welling.MainViewModel
-
 import com.example.welling.R
 import com.example.welling.component.BtnMainColor
 import com.example.welling.component.CustomTextBox
 
 
 @Composable
-fun StartSettingScreen(navController: NavHostController, mainViewModel: MainViewModel) {
+fun StartSettingScreen(navController: NavHostController) {
     val categories = listOf(
         listOf("가난", "성평등"),
         listOf("노인", "빈곤"),
@@ -72,9 +80,12 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                             color = if (isSelected) colorResource(id = R.color.light_green) else colorResource(
                                 id = R.color.white
                             ),
-                            border = BorderStroke(1.dp, if (isSelected) colorResource(id = R.color.light_green) else colorResource(
-                                id = R.color.gray_F2F4F5
-                            ).copy(alpha = 0.5f)),
+                            border = BorderStroke(
+                                1.dp,
+                                if (isSelected) colorResource(id = R.color.light_green) else colorResource(
+                                    id = R.color.gray_F2F4F5
+                                ).copy(alpha = 0.5f)
+                            ),
                             modifier = Modifier
                                 .padding(7.dp)
                                 .clickable {
@@ -103,7 +114,6 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
         BtnMainColor(
             text = "다음",
             onClick = {
-                mainViewModel.setFirstLaunchCompleted()
                 navController.navigate("main_donation") // Ensure this matches the destination in your NavHost
             }
         )
@@ -113,5 +123,5 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
 @Preview(showBackground = true)
 @Composable
 fun PreviewStartSettingScreen() {
-    StartSettingScreen(navController = rememberNavController(), mainViewModel = MainViewModel())
+    StartSettingScreen(navController = rememberNavController())
 }

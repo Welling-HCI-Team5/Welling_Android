@@ -1,9 +1,18 @@
-package com.example.welling.Screen
+package com.example.welling.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -11,7 +20,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.*
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,11 +48,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
 import com.example.welling.component.BottomNavigationBar
 import com.example.welling.component.CustomTextBox
-import com.example.welling.screen.Ability_Categories
-import com.example.welling.screen.Ability_DonationItem
-import com.example.welling.screen.Ability_DonationRecommendation
-import com.example.welling.screen.Ability_Header
-import com.example.welling.screen.Ability_NeedHelp
 import com.example.welling.ui.theme.WellingTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -337,7 +346,7 @@ fun ProgressBarWithLabel(label: String, progress: Float) {
                 .fillMaxWidth()
                 .height(10.dp),
             color = colorResource(id = R.color.main_color),
-            strokeCap  = StrokeCap.Round
+            strokeCap = StrokeCap.Round
         )
     }
 }
@@ -347,6 +356,6 @@ fun ProgressBarWithLabel(label: String, progress: Float) {
 @Composable
 fun PreviewMyPageScreen() {
     WellingTheme {
-    MyPageScreen(rememberNavController())
-        }
+        MyPageScreen(rememberNavController())
+    }
 }
