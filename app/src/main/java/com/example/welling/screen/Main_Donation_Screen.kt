@@ -1,6 +1,6 @@
 package com.example.welling.screen
 
-import android.annotation.SuppressLint
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,8 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,8 +40,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.welling.MainViewModel
 
 import com.example.welling.R
 import com.example.welling.ui.theme.WellingTheme
@@ -62,7 +63,7 @@ data class DonationItemData(
     val money: String
 )
 
-
+/* startsettingscreen에서 선택하고 연동하는 것 반영 전 코드 혹시 몰라 남김
 @Composable
 fun Main_Donation_Screen(navController: NavHostController) {
     val donationItems = listOf(
@@ -146,7 +147,109 @@ fun Main_Donation_Screen(navController: NavHostController) {
         }
     }
 }
+*/
+@Composable
+fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
+    val donationItems = listOf(
+        DonationItemData(
+            imageRes = R.drawable.donation_1,
+            title = "불공정무역 청소년을 위한 기부",
+            money = "\$85000 (미국 달러 기준)",
+            progress = 0.55f,
+            progressText = "55%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.grandma,
+            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
+            money = "\$45000 (미국 달러 기준)",
+            progress = 0.40f,
+            progressText = "40%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.water,
+            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
+            money = "\$35000 (미국 달러 기준)",
+            progress = 0.75f,
+            progressText = "75%"
+        ),
+        DonationItemData(
+            imageRes = R.drawable.goat,
+            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+            money = "\$105000 (미국 달러 기준)",
+            progress = 0.10f,
+            progressText = "10%"
+        )
+    )
 
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            Donation_Header()
+            Spacer(modifier = Modifier.height(30.dp))
+            Donation_FeaturedStory(navController)
+            Spacer(modifier = Modifier.height(45.dp))
+            Donation_Categories(mainViewModel.selectedCategories)
+            Spacer(modifier = Modifier.height(20.dp))
+            Donation_Recommendation()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            donationItems.forEach { item ->
+                Main_DonationItem(
+                    imageRes = item.imageRes,
+                    title = item.title,
+                    money = item.money,
+                    progress = item.progress,
+                    progressText = item.progressText
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun Donation_Categories(selectedCategories: List<String>) {
+    val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
+    val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.horizontalScroll(rememberScrollState())
+    ) {
+        orderedCategories.forEach { category ->
+            Donation_CategoryButton(
+                text = category,
+                isSelected = category in selectedCategories
+            )
+        }
+    }
+}
+
+@Composable
+fun Donation_CategoryButton(text: String, isSelected: Boolean) {
+    val backgroundColor = if (isSelected) Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
+    val textColor = if (isSelected) Color(0xFFA4D41C) else Color(0xFF090A0A)
+
+    Box(
+        modifier = Modifier
+            .height(32.dp)
+            .background(backgroundColor, shape = RoundedCornerShape(32.dp))
+            .padding(horizontal = 16.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = text,
+            color = textColor
+        )
+    }
+}
 @Composable
 fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Float, progressText: String) {
     Row(
@@ -338,7 +441,7 @@ fun Donation_FeaturedStory(navController: NavHostController) {
         }
     }
 }
-
+/*
 @Composable
 fun Donation_Categories() {
     val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
@@ -386,7 +489,7 @@ fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Un
         )
     }
 }
-
+*/
 @Composable
 fun Donation_Recommendation() {
     Column {

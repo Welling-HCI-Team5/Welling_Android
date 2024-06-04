@@ -15,8 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -39,12 +38,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
 import com.example.welling.ui.theme.WellingTheme
 import com.example.welling.component.TabItem
 import com.example.welling.component.BottomNavigationBar
+import com.example.welling.MainViewModel
+
 
 data class AbilityItemData(
     val imageRes: Int,
@@ -53,7 +55,7 @@ data class AbilityItemData(
     val progress: Float,
     val progressText: String
 )
-
+/* startsettingscreen에서 선택한 것 반영하기 전 코드 혹시몰라 남김
 @Composable
 fun Ability_Donation_Screen(navController: NavHostController) {
     val donationItems = listOf(
@@ -119,7 +121,109 @@ fun Ability_Donation_Screen(navController: NavHostController) {
         }
     }
 }
+*/
+@Composable
+fun Ability_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
+    val donationItems = listOf(
+        AbilityItemData(
+            imageRes = R.drawable.smile,
+            title = "아프리카에서 한국어 선생님을 모집합니다",
+            description = "아프리카 케냐 (항공 지원)",
+            progress = 0.55f,
+            progressText = "55%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.grandma,
+            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
+            description = "서울시 송파구 (사랑나눔재단)",
+            progress = 0.40f,
+            progressText = "40%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.water,
+            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
+            description = "온라인",
+            progress = 0.75f,
+            progressText = "75%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.goat,
+            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+            description = "호주 시드니",
+            progress = 0.10f,
+            progressText = "10%"
+        )
+    )
 
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            Ability_Header()
+            Spacer(modifier = Modifier.height(30.dp))
+            Ability_NeedHelp(navController)
+            Spacer(modifier = Modifier.height(25.dp))
+            Ability_Categories(mainViewModel.selectedCategories)
+            Spacer(modifier = Modifier.height(20.dp))
+            Ability_DonationRecommendation()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            donationItems.forEach { item ->
+                Ability_DonationItem(
+                    imageRes = item.imageRes,
+                    title = item.title,
+                    description = item.description,
+                    progress = item.progress,
+                    progressText = item.progressText
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun Ability_Categories(selectedCategories: List<String>) {
+    val categories = listOf("국제", "예체능", "자원 봉사", "교육", "IT & 사회")
+    val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.horizontalScroll(rememberScrollState())
+    ) {
+        orderedCategories.forEach { category ->
+            Ability_CategoryButton(
+                text = category,
+                isSelected = category in selectedCategories
+            )
+        }
+    }
+}
+
+@Composable
+fun Ability_CategoryButton(text: String, isSelected: Boolean) {
+    val backgroundColor = if (isSelected) Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
+    val textColor = if (isSelected) Color(0xFFA4D41C) else Color(0xFF090A0A)
+
+    Box(
+        modifier = Modifier
+            .height(32.dp)
+            .background(backgroundColor, shape = RoundedCornerShape(32.dp))
+            .padding(horizontal = 16.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = text,
+            color = textColor
+        )
+    }
+}
 // 재능 기부
 @Composable
 fun Ability_Header() {
@@ -267,7 +371,7 @@ fun Ability_NeedHelp(navController: NavHostController) {
         }
     }
 }
-
+/*
 @Composable
 fun Ability_Categories() {
     Row(
@@ -300,7 +404,7 @@ fun Ability_CategoryButton(text: String) {
         )
     }
 }
-
+*/
 @Composable
 fun Ability_DonationRecommendation() {
     Column {

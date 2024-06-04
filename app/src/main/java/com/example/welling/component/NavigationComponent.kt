@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
+import com.example.welling.screen.MyPageScreen
 import com.example.welling.screen.Ability_Donation_Screen
 import com.example.welling.screen.ArticleScreen
 import com.example.welling.screen.DonationDetailScreen
@@ -26,5 +27,6 @@ fun NavigationComponent() {
         composable("article_screen") { ArticleScreen(navController) }
         composable("donation_detail_screen") { DonationDetailScreen(navController) }
         composable("notifications") { Notice_Screen(navController) }
+        composable("my_page") { MyPageScreen(navController) }
     }
 }
