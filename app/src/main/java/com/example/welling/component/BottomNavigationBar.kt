@@ -15,9 +15,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
-import com.example.welling.screen.Main_Donation_Screen
+
 import com.example.welling.ui.theme.WellingTheme
-import com.example.welling.component.NavigationComponent
+
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController,) {
