@@ -154,6 +154,7 @@ fun DonationDetailScreen(navController: NavHostController) {
                 text = "기부하기",
                 onClick = {
                     Toast.makeText(context, "기부하기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
+                    navController.navigate("donation_progress")
                 }
             )
         }

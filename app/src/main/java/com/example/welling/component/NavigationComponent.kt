@@ -9,6 +9,7 @@ import com.example.welling.screen.MyPageScreen
 import com.example.welling.screen.Ability_Donation_Screen
 import com.example.welling.screen.ArticleScreen
 import com.example.welling.screen.DonationDetailScreen
+import com.example.welling.screen.DonationProgressScreen
 import com.example.welling.screen.Main_Donation_Screen
 import com.example.welling.screen.Notice_Screen
 import com.example.welling.screen.SplashScreen
@@ -28,5 +29,6 @@ fun NavigationComponent() {
         composable("donation_detail_screen") { DonationDetailScreen(navController) }
         composable("notifications") { Notice_Screen(navController) }
         composable("my_page") { MyPageScreen(navController) }
+        composable("donation_progress") { DonationProgressScreen(navController)}
     }
 }

@@ -46,7 +46,7 @@ fun DonationProgressScreen(navController: NavHostController) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(40.dp)
+                    modifier = Modifier.padding(32.dp)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
