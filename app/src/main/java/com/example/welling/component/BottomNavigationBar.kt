@@ -20,7 +20,7 @@ import com.example.welling.ui.theme.WellingTheme
 
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController,) {
+fun BottomNavigationBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 

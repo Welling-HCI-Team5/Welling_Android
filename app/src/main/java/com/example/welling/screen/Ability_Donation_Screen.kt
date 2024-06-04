@@ -46,7 +46,7 @@ import com.example.welling.ui.theme.WellingTheme
 import com.example.welling.component.TabItem
 import com.example.welling.component.BottomNavigationBar
 import com.example.welling.MainViewModel
-import androidx.compose.runtime.*
+
 
 data class AbilityItemData(
     val imageRes: Int,
