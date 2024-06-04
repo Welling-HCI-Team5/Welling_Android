@@ -9,13 +9,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
+import com.example.welling.screen.Main_Donation_Screen
+import com.example.welling.ui.theme.WellingTheme
+import com.example.welling.component.NavigationComponent
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(navController: NavHostController,) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -89,15 +94,15 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(if (currentRoute == "profile") R.drawable.coloruser else R.drawable.user),
+                    painter = painterResource(if (currentRoute == "my_page") R.drawable.coloruser else R.drawable.user),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
-            selected = currentRoute == "profile",
+            selected = currentRoute == "my_page",
             onClick = {
-                if (currentRoute != "profile") {
-                    navController.navigate("profile") {
+                if (currentRoute != "my_page") {
+                    navController.navigate("my_page") {
                         popUpTo(navController.graph.startDestinationId) {
                             saveState = true
                         }
@@ -107,5 +112,14 @@ fun BottomNavigationBar(navController: NavHostController) {
                 }
             }
         )
+    }
+}
+
+
+@Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
+@Composable
+fun Navi_DefaultPreview() {
+    WellingTheme {
+        BottomNavigationBar(rememberNavController())
     }
 }

@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ fun Notice_Screen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
             GreetingSection()
@@ -72,8 +75,6 @@ fun GreetingSection() {
                     append(text.substring(startIndex + highlightWord.length))
                 }
 
-
-
                 Text(
                     text = annotatedString,
                     fontSize = 18.55.sp,
@@ -92,11 +93,10 @@ fun GreetingSection() {
                     fontSize = 16.55.sp,
                     color = Color(0xFF84B105)
                 )
-
             }
             Spacer(modifier = Modifier.width(35.dp))
             Image(
-                painter = painterResource(id = R.drawable.union), // 여기에 union 이미지를 추가하세요.
+                painter = painterResource(id = R.drawable.union),
                 contentDescription = "Union Image",
                 modifier = Modifier
                     .width(46.42.dp)
@@ -118,11 +118,11 @@ fun RecentWellingRecords() {
         Spacer(modifier = Modifier.height(8.dp))
         Welling_TabRow()
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(listOf("Oct 7", "Sep 15", "Oct 1", "Oct 3")) { date ->
-                WellingRecordItem(date = date, title = "경기 광주\n미혼모 지원 센터", description = "다문화 가정, 미혼모 자녀들의 교습소..")
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+
+        val dates = listOf("Oct 7", "Sep 15", "Oct 1", "Oct 3", "Oct 31", "Nov 17", "Jul 5")
+        dates.forEach { date ->
+            WellingRecordItem(date = date, title = "경기 광주\n미혼모 지원 센터", description = "다문화 가정, 미혼모 자녀들의 교습소..")
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -132,7 +132,7 @@ fun Welling_TabRow() {
     var selectedTab by remember { mutableStateOf("기부") }
 
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly, // Distributes space evenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -147,7 +147,7 @@ fun Well_TabItem(text: String, isSelected: Boolean, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 8.dp) // Adjust padding as necessary
+            .padding(horizontal = 8.dp, vertical = 8.dp)
     ) {
         Text(
             text = text,
@@ -158,7 +158,7 @@ fun Well_TabItem(text: String, isSelected: Boolean, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
         Box(
             modifier = Modifier
-                .width(141.dp) // Adjust the width if necessary to match the image
+                .width(141.dp)
                 .height(1.dp)
                 .background(if (isSelected) Color(0xFF84B105) else Color.Transparent)
         )
