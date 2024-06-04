@@ -39,7 +39,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
 import com.example.welling.component.BottomNavigationBar
 import com.example.welling.component.CustomTextBox
-import com.example.welling.component.BottomNavigationBar
 import com.example.welling.ui.theme.WellingTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,23 +51,11 @@ fun MyPageScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()) // Enable vertical scrolling
-                .padding(16.dp)
-        ) {
-        }
-    }
-
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
+                .padding(innerPadding) // Use innerPadding to adjust for bottom bar
                 .padding(16.dp)
         ) {
             item {
@@ -148,12 +135,11 @@ fun MyPageScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(24.dp))
             }
             item {
-                {}
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(colorResource(id = R.color.white), RoundedCornerShape(12.dp))
-                        .padding(24.dp),
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -342,7 +328,6 @@ fun ProgressBarWithLabel(label: String, progress: Float) {
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
