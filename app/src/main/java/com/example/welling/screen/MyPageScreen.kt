@@ -1,14 +1,22 @@
 package com.example.welling.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.*
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,9 +37,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
+import com.example.welling.component.BottomNavigationBar
 import com.example.welling.component.CustomTextBox
 import com.example.welling.component.BottomNavigationBar
+import com.example.welling.ui.theme.WellingTheme
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageScreen(navController: NavHostController) {
@@ -41,11 +52,23 @@ fun MyPageScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()) // Enable vertical scrolling
+                .padding(16.dp)
+        ) {
+        }
+    }
+
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(innerPadding)
                 .padding(16.dp)
         ) {
             item {
@@ -61,7 +84,10 @@ fun MyPageScreen(navController: NavHostController) {
                     Box(
                         modifier = Modifier
                             .size(147.dp)
-                            .background(color = colorResource(id = R.color.gray_353535), shape = CircleShape),
+                            .background(
+                                color = colorResource(id = R.color.gray_353535),
+                                shape = CircleShape
+                            ),
                     )
                     Image(
                         painter = painterResource(id = R.drawable.ic_avatar),
@@ -122,6 +148,7 @@ fun MyPageScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(24.dp))
             }
             item {
+                {}
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -307,9 +334,11 @@ fun ProgressBarWithLabel(label: String, progress: Float) {
         Spacer(modifier = Modifier.height(4.dp))
         LinearProgressIndicator(
             progress = progress,
-            modifier = Modifier.fillMaxWidth().height(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(10.dp),
             color = colorResource(id = R.color.main_color),
-            strokeCap  = StrokeCap.Round
+            strokeCap = StrokeCap.Round
         )
     }
 }
@@ -318,5 +347,7 @@ fun ProgressBarWithLabel(label: String, progress: Float) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMyPageScreen() {
-    MyPageScreen(rememberNavController())
+    WellingTheme {
+        MyPageScreen(rememberNavController())
+    }
 }
