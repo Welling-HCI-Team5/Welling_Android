@@ -11,7 +11,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.welling.MainViewModel
 import com.example.welling.R
 import com.example.welling.screen.Ability_Categories
 import com.example.welling.screen.Ability_DonationItem
@@ -30,7 +32,7 @@ data class DonationItemData(
 )
 
 @Composable
-fun Reuse_Screen(navController: NavHostController) {
+fun Reuse_Screen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
     val donationItems = listOf(
         DonationItemData(
             imageRes = R.drawable.smile, // 이미지 삽입
@@ -75,7 +77,7 @@ fun Reuse_Screen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(30.dp))
             Ability_NeedHelp(navController)
             Spacer(modifier = Modifier.height(25.dp))
-            Ability_Categories()
+            Ability_Categories(mainViewModel.selectedCategories)
             Spacer(modifier = Modifier.height(20.dp))
             Ability_DonationRecommendation()
             Spacer(modifier = Modifier.height(16.dp))
