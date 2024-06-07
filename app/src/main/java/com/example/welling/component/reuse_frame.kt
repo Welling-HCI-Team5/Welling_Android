@@ -20,7 +20,6 @@ import com.example.welling.screen.Ability_DonationItem
 import com.example.welling.screen.Ability_DonationRecommendation
 import com.example.welling.screen.Ability_Header
 import com.example.welling.screen.Ability_NeedHelp
-import com.example.welling.component.BottomNavigationBar
 
 // DonationItemData, donationItems, LazyColumn 부분 이용
 data class DonationItemData(
@@ -30,7 +29,7 @@ data class DonationItemData(
     val progress: Float,
     val progressText: String
 )
-
+/*
 @Composable
 fun Reuse_Screen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
     val donationItems = listOf(
@@ -99,3 +98,4 @@ fun Reuse_Screen(navController: NavHostController, mainViewModel: MainViewModel 
         }
     }
 }
+*/
