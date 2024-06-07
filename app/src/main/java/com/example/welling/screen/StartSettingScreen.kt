@@ -123,7 +123,7 @@ fun StartSettingScreen(navController: NavHostController) {
 }
 */
 @Composable
-fun StartSettingScreen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
+fun StartSettingScreen(navController: NavHostController, mainViewModel: MainViewModel) {
     val isFirstLaunchCompleted by mainViewModel.isFirstLaunchCompleted
 
     if (!isFirstLaunchCompleted) {
@@ -213,13 +213,15 @@ fun StartSettingScreen(navController: NavHostController, mainViewModel: MainView
                 }
             )
         }
-    }
-    else {
+    } else {
         navController.navigate("main_donation")
     }
 }
 @Preview(showBackground = true)
 @Composable
 fun PreviewStartSettingScreen() {
-    StartSettingScreen(navController = rememberNavController())
+    val navController = rememberNavController()
+    val mainViewModel = MainViewModel()
+
+    StartSettingScreen(navController = navController, mainViewModel = mainViewModel)
 }

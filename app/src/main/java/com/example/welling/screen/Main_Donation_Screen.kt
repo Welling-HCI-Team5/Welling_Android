@@ -63,93 +63,8 @@ data class DonationItemData(
     val money: String
 )
 
-/* startsettingscreen에서 선택하고 연동하는 것 반영 전 코드 혹시 몰라 남김
 @Composable
-fun Main_Donation_Screen(navController: NavHostController) {
-    val donationItems = listOf(
-        DonationItemData(
-            imageRes = R.drawable.donation_1,
-            title = "불공정무역 청소년을 위한 기부",
-            money = "\$85000 (미국 달러 기준)",
-            progress = 0.55f,
-            progressText = "55%"
-        ),
-        DonationItemData(
-            imageRes = R.drawable.grandma,
-            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
-            money = "\$45000 (미국 달러 기준)",
-            progress = 0.40f,
-            progressText = "40%"
-        ),
-        DonationItemData(
-            imageRes = R.drawable.water,
-            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
-            money = "\$35000 (미국 달러 기준)",
-            progress = 0.75f,
-            progressText = "75%"
-        ),
-        DonationItemData(
-            imageRes = R.drawable.goat,
-            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
-            money = "\$105000 (미국 달러 기준)",
-            progress = 0.10f,
-            progressText = "10%"
-        )
-    )
-
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)// 패딩을 Scaffold의 contentPadding과 일치시키기 위해 innerPadding 사용
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-               //
-        ) {
-            Donation_Header()
-            Spacer(modifier = Modifier.height(30.dp))
-            Donation_FeaturedStory(navController)
-            Spacer(modifier = Modifier.height(45.dp))
-            Donation_Categories()
-            Spacer(modifier = Modifier.height(20.dp))
-            Donation_Recommendation()
-           // Spacer(modifier = Modifier.height(16.dp))
-/*
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(donationItems) { item ->
-                    Main_DonationItem(
-                        imageRes = item.imageRes,
-                        title = item.title,
-                        money = item.money,
-                        progress = item.progress,
-                        progressText = item.progressText
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-
- */
-            // LazyColumn to display the donation items
-            donationItems.forEach { item ->
-                Main_DonationItem(
-                    imageRes = item.imageRes,
-                    title = item.title,
-                    money = item.money,
-                    progress = item.progress,
-                    progressText = item.progressText
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-        }
-    }
-}
-*/
-@Composable
-fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel = viewModel()) {
+fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel) {
     val donationItems = listOf(
         DonationItemData(
             imageRes = R.drawable.donation_1,
@@ -195,7 +110,7 @@ fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainVi
             Spacer(modifier = Modifier.height(30.dp))
             Donation_FeaturedStory(navController)
             Spacer(modifier = Modifier.height(45.dp))
-            Donation_Categories(mainViewModel.selectedCategories)
+            Donation_Categories(mainViewModel)
             Spacer(modifier = Modifier.height(20.dp))
             Donation_Recommendation()
             Spacer(modifier = Modifier.height(16.dp))
@@ -215,8 +130,9 @@ fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainVi
 }
 
 @Composable
-fun Donation_Categories(selectedCategories: List<String>) {
+fun Donation_Categories(mainViewModel: MainViewModel) {
     val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
+    val selectedCategories = mainViewModel.selectedCategories
     val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
 
     Row(
@@ -227,14 +143,15 @@ fun Donation_Categories(selectedCategories: List<String>) {
         orderedCategories.forEach { category ->
             Donation_CategoryButton(
                 text = category,
-                isSelected = category in selectedCategories
+                isSelected = category in selectedCategories,
+                onClick = { mainViewModel.selectCategory(category) }
             )
         }
     }
 }
 
 @Composable
-fun Donation_CategoryButton(text: String, isSelected: Boolean) {
+fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
     val backgroundColor = if (isSelected) Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
     val textColor = if (isSelected) Color(0xFFA4D41C) else Color(0xFF090A0A)
 
@@ -243,6 +160,7 @@ fun Donation_CategoryButton(text: String, isSelected: Boolean) {
             .height(32.dp)
             .background(backgroundColor, shape = RoundedCornerShape(32.dp))
             .padding(horizontal = 16.dp, vertical = 5.dp)
+            .clickable(onClick = onClick)
     ) {
         Text(
             text = text,
@@ -250,6 +168,7 @@ fun Donation_CategoryButton(text: String, isSelected: Boolean) {
         )
     }
 }
+
 @Composable
 fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Float, progressText: String) {
     Row(
@@ -441,55 +360,7 @@ fun Donation_FeaturedStory(navController: NavHostController) {
         }
     }
 }
-/*
-@Composable
-fun Donation_Categories() {
-    val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
-    val selectedCategories = remember { mutableStateListOf<String>() }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.horizontalScroll(rememberScrollState())
-    ) {
-        val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
-
-        orderedCategories.forEach { category ->
-            Donation_CategoryButton(
-                text = category,
-                isSelected = category in selectedCategories,
-                onClick = {
-                    if (category in selectedCategories) {
-                        selectedCategories.remove(category)
-                    } else {
-                        selectedCategories.add(category)
-                    }
-                }
-            )
-        }
-    }
-    Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
-    val backgroundColor = if (isSelected) Color(0xFFF1F7DE) else Color(0xFFF2F4F5)
-    val textColor = if (isSelected) Color(0xFFA4D41C) else Color(0xFF090A0A)
-
-    Box(
-        modifier = Modifier
-            .height(32.dp)
-            .background(backgroundColor, shape = RoundedCornerShape(32.dp))
-            .padding(horizontal = 16.dp, vertical = 5.dp)
-            .clickable(onClick = onClick)
-    ) {
-        Text(
-            text = text,
-            color = textColor
-        )
-    }
-}
-*/
 @Composable
 fun Donation_Recommendation() {
     Column {
@@ -527,6 +398,9 @@ fun Donation_TabRow() {
 @Composable
 fun Main_DefaultPreview() {
     WellingTheme {
-        Main_Donation_Screen(rememberNavController())
+        val navController = rememberNavController()
+        val mainViewModel = MainViewModel()
+
+        Main_Donation_Screen(navController = navController, mainViewModel = mainViewModel)
     }
 }
