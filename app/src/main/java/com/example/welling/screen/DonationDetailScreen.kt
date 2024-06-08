@@ -41,9 +41,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.welling.R
 import com.example.welling.component.BtnMainColor
 import com.example.welling.component.CustomTextBox
-import com.example.welling.R
+import com.example.welling.component.TopAppBar
 import com.example.welling.ui.theme.WellingTheme
 
 
@@ -59,104 +60,114 @@ fun DonationDetailScreen(navController: NavHostController) {
     currentProgress = 0.1F
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxHeight()
-                .verticalScroll(scrollState)
-        ) {
-            // 사진
-            Image(
-                painter = painterResource(id = R.drawable.img_donation_boy),
-                contentDescription = "기부 상세 화면 이미지",
+        Column {
+            // 상단바
+            TopAppBar(
+                onBackIconClick = { navController.popBackStack() },
+                title = "기부 ",
+                onRightIconClick = null,
+                rightIconImgId = null,
+            )
+
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-            )
+                    .padding(24.dp)
+                    .fillMaxHeight()
+                    .verticalScroll(scrollState)
+            ) {
+                // 사진
+                Image(
+                    painter = painterResource(id = R.drawable.img_donation_boy),
+                    contentDescription = "기부 상세 화면 이미지",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+                )
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // 최근 기부자들
-            CustomTextBox( // 제목
-                text = "최근 기부자들",
-                colorId = R.color.semi_black,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-                textOnClick = null,
-                spacerHeight = 8.dp
-            )
-            OverlappingImagesWithText(
-                imageIds = listOf(
-                    R.drawable.img_size38,
-                    R.drawable.img_size38,
-                    R.drawable.img_size38,
-                    R.drawable.img_size38,
-                    R.drawable.img_size38
-                ), text = "${currentDonatorNum}"
-            )
-            Spacer(modifier = Modifier.height(24.dp))
+                // 최근 기부자들
+                CustomTextBox( // 제목
+                    text = "최근 기부자들",
+                    colorId = R.color.semi_black,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                    textOnClick = null,
+                    spacerHeight = 8.dp
+                )
+                OverlappingImagesWithText(
+                    imageIds = listOf(
+                        R.drawable.img_size38,
+                        R.drawable.img_size38,
+                        R.drawable.img_size38,
+                        R.drawable.img_size38,
+                        R.drawable.img_size38
+                    ), text = "${currentDonatorNum}"
+                )
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // 기부 현황 상태바
-            CustomProgressBox(currentProgress = currentProgress, spacerHeight = 24.dp)
+                // 기부 현황 상태바
+                CustomProgressBox(currentProgress = currentProgress, spacerHeight = 24.dp)
 
-            // 기부 상세 정보 (제목, 내용)
-            CustomTextBox( // 제목
-                text = "공정무역 청소년을 위한 기부",
-                colorId = R.color.semi_black,
-                fontSize = 22.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-                textOnClick = null,
-                spacerHeight = 24.dp
-            )
-            CustomTextBox( // 내용
-                text = "이 기부는 공정무역 청소년을 위한 기부입니다.\n" +
-                        "아직 수 많은 아프리카 지역의 아이들은 아동노동법에 위반하여, 제대로된 임금을 받지 못하고 초콜릿 공장에서 착취를 당하고 있습니다.\n\n" +
-                        "이 기부를 진행함으로써, 많은 아이들이 노동 착취로 부터 벗어날 수 있을 것 입니다.",
-                colorId = R.color.semi_black,
-                fontSize = 14.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                textOnClick = null,
-                spacerHeight = 5.dp
-            )
-            CustomTextBox( // 더보기 버튼
-                text = "더보기",
-                colorId = R.color.main_color,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                textOnClick = {
-                    Toast.makeText(context, "더보기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
-                },
-                spacerHeight = 24.dp
-            )
+                // 기부 상세 정보 (제목, 내용)
+                CustomTextBox( // 제목
+                    text = "공정무역 청소년을 위한 기부",
+                    colorId = R.color.semi_black,
+                    fontSize = 22.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                    textOnClick = null,
+                    spacerHeight = 24.dp
+                )
+                CustomTextBox( // 내용
+                    text = "이 기부는 공정무역 청소년을 위한 기부입니다.\n" +
+                            "아직 수 많은 아프리카 지역의 아이들은 아동노동법에 위반하여, 제대로된 임금을 받지 못하고 초콜릿 공장에서 착취를 당하고 있습니다.\n\n" +
+                            "이 기부를 진행함으로써, 많은 아이들이 노동 착취로 부터 벗어날 수 있을 것 입니다.",
+                    colorId = R.color.semi_black,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    textOnClick = null,
+                    spacerHeight = 5.dp
+                )
+                CustomTextBox( // 더보기 버튼
+                    text = "더보기",
+                    colorId = R.color.main_color,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    textOnClick = {
+                        Toast.makeText(context, "더보기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
+                    },
+                    spacerHeight = 24.dp
+                )
 
-            // 비슷한 프로그램
-            CustomTextBox( // 더보기 버튼
-                text = "비슷한 프로그램",
-                colorId = R.color.semi_black,
-                fontSize = 18.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-                textOnClick = null,
-                spacerHeight = 16.dp
-            )
-            Spacer(modifier = Modifier.height(200.dp))
+                // 비슷한 프로그램
+                CustomTextBox( // 더보기 버튼
+                    text = "비슷한 프로그램",
+                    colorId = R.color.semi_black,
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                    textOnClick = null,
+                    spacerHeight = 16.dp
+                )
+                Spacer(modifier = Modifier.height(200.dp))
 
-            // 기자 정보
-            AuthorInfoBox(
-                authorName = "Any Mila",
-                authorInfo = "뉴욕 현지 여행 기자, BBC USA 소속 기자",
-                authorImgId = R.drawable.img_author
-            )
+                // 기자 정보
+                AuthorInfoBox(
+                    authorName = "Any Mila",
+                    authorInfo = "뉴욕 현지 여행 기자, BBC USA 소속 기자",
+                    authorImgId = R.drawable.img_author
+                )
 
-            Spacer(modifier = Modifier.height(70.dp))
+                Spacer(modifier = Modifier.height(70.dp))
 
-            // '기부하기' btn
-            BtnMainColor(
-                text = "기부하기",
-                onClick = {
-                    Toast.makeText(context, "기부하기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
-                    navController.navigate("donation_progress")
-                }
-            )
+                // '기부하기' btn
+                BtnMainColor(
+                    text = "기부하기",
+                    onClick = {
+                        Toast.makeText(context, "기부하기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
+                        navController.navigate("donation_progress")
+                    }
+                )
+            }
         }
     }
 }
