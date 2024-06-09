@@ -1,5 +1,6 @@
 package com.example.welling.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import com.example.welling.ui.theme.WellingTheme
 fun BottomNavigationBar(navController: NavHostController) {
 
     BottomNavigation(
+        modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.White,
         contentColor = Color.Gray
     ) {
@@ -30,9 +33,10 @@ fun BottomNavigationBar(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         BottomNavigationItem(
+
             icon = {
                 Icon(
-                    painter = painterResource(R.drawable.grayhome),
+                    painter = painterResource(id = R.drawable.home),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )

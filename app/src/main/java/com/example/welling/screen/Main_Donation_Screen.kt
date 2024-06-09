@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,36 +59,659 @@ data class DonationItemData(
 
 @Composable
 fun Main_Donation_Screen(navController: NavController, mainViewModel: MainViewModel) {
-    val donationItems = listOf(
-        DonationItemData(
-            imageRes = R.drawable.donation_1,
-            title = "불공정무역 청소년을 위한 기부",
-            money = "\$85000 (미국 달러 기준)",
-            progress = 0.55f,
-            progressText = "55%"
+    val donationItems = mapOf(
+        "가난" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.donation_1,
+                title = "가난 청소년 교육 지원",
+                money = "\$85000 (미국 달러 기준)",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.grandma,
+                title = "가난 요양사 선생님 모집",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.water,
+                title = "가난 협동조합 기부",
+                money = "\$35000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.goat,
+                title = "가난 동물 보호 기부",
+                money = "\$105000 (미국 달러 기준)",
+                progress = 0.10f,
+                progressText = "10%"
+            )
         ),
-        DonationItemData(
-            imageRes = R.drawable.grandma,
-            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
-            money = "\$45000 (미국 달러 기준)",
-            progress = 0.40f,
-            progressText = "40%"
+        "성평등" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_1_1,
+                title = "성평등 청소년 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "성평등 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "성평등 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "성평등 홍보 활동 자금",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
         ),
-        DonationItemData(
-            imageRes = R.drawable.water,
-            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
-            money = "\$35000 (미국 달러 기준)",
-            progress = 0.75f,
-            progressText = "75%"
+        "노인" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_2_1,
+                title = "노인 교육 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_2,
+                title = "노인 의료 지원 활동",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_3,
+                title = "노인 보호 프로젝트",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_4,
+                title = "노인 요양 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
         ),
-        DonationItemData(
-            imageRes = R.drawable.goat,
-            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
-            money = "\$105000 (미국 달러 기준)",
-            progress = 0.10f,
-            progressText = "10%"
+        "재능 기부" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "청소년 교육 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "의료 지원 활동",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "환경 보호 프로젝트",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "빈곤층 지원 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "빈곤" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_4_1,
+                title = "빈곤 청소년 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_2,
+                title = "빈곤층 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_3,
+                title = "빈곤층 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_4,
+                title = "빈곤층 의식주 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "깨끗한 물" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "물 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_2,
+                title = "우물 사업",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_3,
+                title = "생수 지원",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_4,
+                title = "정화 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "쓰레기 오염" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_6_1,
+                title = "쓰레기 정리 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_2,
+                title = "청소 지원 활동",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_3,
+                title = "환경 보호 프로젝트",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_4,
+                title = "분리수거 지원 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
         )
     )
+
+    val domesticDonationItems = mapOf(
+        "가난" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_7_1,
+                title = "국내 가난 청소년 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_7_2,
+                title = "국내 가난한 아이 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_7_3,
+                title = "국내 가난한 아이 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.donation_1,
+                title = "국내 가난한 아이 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "성평등" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "국내 성평등 청소년 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "국내 성평등 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_1,
+                title = "국내 성평등 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "국내 성평등 지원 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "노인" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_2_3,
+                title = "국내 노인 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_4,
+                title = "국내 노인 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_1,
+                title = "국내 노인 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_2,
+                title = "국내 노인 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+
+        "재능 기부" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "국내 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "국내 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "국내 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "국내 환경 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "빈곤" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_4_3,
+                title = "국내 빈곤층 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_4,
+                title = "국내 빈곤층 의료 지원",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_1,
+                title = "국내 빈곤층 복지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_2,
+                title = "국내 빈곤층 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "쓰레기 오염" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_5_3,
+                title = "국내 분리수거 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_4,
+                title = "국내 쓰레기 줍기 활동",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "국내 오염 방지 사업",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_2,
+                title = "국내 환경 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "깨끗한 물" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_6_3,
+                title = "국내 생수 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_4,
+                title = "국내 정화 사업",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_1,
+                title = "국내 물 사업 지원",
+                money = "\$20000 (미국 달러 기준)",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_2,
+                title = "국내 물 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        )
+        // Add other categories as necessary...
+    )
+
+    val internationalDonationItems = mapOf(
+        "가난" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_7_3,
+                title = "국외 가난 청소년 교육 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.donation_1,
+                title = "국외 가난한 아이 의료 지원",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_7_1,
+                title = "국외 가난한 아이 복지 사업",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_7_2,
+                title = "국외 가난한 아이 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "성평등" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "국외 성평등 청소년 교육 지원",
+                money = "\$25000 (미국 달러 기준)",
+                progress = 0.60f,
+                progressText = "60%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "국외 성평등 의료 지원 활동",
+                money = "\$15000 (미국 달러 기준)",
+                progress = 0.50f,
+                progressText = "50%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_1,
+                title = "국외 성평등 복지 사업",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "국외 성평등 지원 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "노인" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_2_2,
+                title = "국외 노인 교육 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_4,
+                title = "국외 노인 의료 지원 활동",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_1,
+                title = "국외 노인 복지 사업",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_2_3,
+                title = "국외 노인 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "재능 기부" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "국외 교육 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "국외 의료 지원",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "국외 복지 사업",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "국외 환경 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "빈곤" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_4_2,
+                title = "국외 빈곤층 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_4,
+                title = "국외 빈곤층 의료 지원",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_1,
+                title = "국외 빈곤층 복지 사업",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_4_3,
+                title = "국외 빈곤층 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "쓰레기 오염" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_5_2,
+                title = "국외 분리수거 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_4,
+                title = "국외 오염 방지 사업",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "국외 쓰레기 줍기 활동",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_5_3,
+                title = "국외 환경 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        ),
+        "깨끗한 물" to listOf(
+            DonationItemData(
+                imageRes = R.drawable.d_6_2,
+                title = "국외 생수 지원",
+                money = "\$45000 (미국 달러 기준)",
+                progress = 0.85f,
+                progressText = "85%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_4,
+                title = "국외 정화 사업",
+                money = "\$55000 (미국 달러 기준)",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_1,
+                title = "국외 물 사업 지원",
+                money = "\$70000 (미국 달러 기준)",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            DonationItemData(
+                imageRes = R.drawable.d_6_3,
+                title = "국외 물 보호 활동",
+                money = "\$30000 (미국 달러 기준)",
+                progress = 0.75f,
+                progressText = "75%"
+            )
+        )
+        // Add other categories as necessary...
+    )
+
+    val selectedTab = remember { mutableStateOf("인기 목록") }
+    val selectedCategory = remember { mutableStateOf<String?>(null) }
+
+    val itemsToDisplay = when {
+        selectedTab.value == "국내 후원" && selectedCategory.value != null -> domesticDonationItems[selectedCategory.value]?.take(4) ?: listOf()
+        selectedTab.value == "국외 후원" && selectedCategory.value != null -> internationalDonationItems[selectedCategory.value]?.take(4) ?: listOf()
+        selectedCategory.value != null -> donationItems[selectedCategory.value] ?: listOf()
+        selectedTab.value == "국내 후원" -> domesticDonationItems.values.flatten().take(4)
+        selectedTab.value == "국외 후원" -> internationalDonationItems.values.flatten().take(4)
+        else -> donationItems["가난"] ?: listOf()
+    }
 
     Column(
         modifier = Modifier
@@ -99,27 +723,30 @@ fun Main_Donation_Screen(navController: NavController, mainViewModel: MainViewMo
         Spacer(modifier = Modifier.height(30.dp))
         Donation_FeaturedStory(navController)
         Spacer(modifier = Modifier.height(45.dp))
-        Donation_Categories(mainViewModel)
+        Donation_Categories(mainViewModel, selectedCategory)
         Spacer(modifier = Modifier.height(20.dp))
-        Donation_Recommendation()
+        Donation_Recommendation(selectedTab, selectedCategory)
         Spacer(modifier = Modifier.height(16.dp))
 
-        donationItems.forEach { item ->
+        itemsToDisplay.forEach { item ->
             Main_DonationItem(
                 imageRes = item.imageRes,
                 title = item.title,
                 money = item.money,
                 progress = item.progress,
-                progressText = item.progressText
+                progressText = item.progressText,
+                nav = navController
+
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 
+
 @Composable
-fun Donation_Categories(mainViewModel: MainViewModel) {
-    val categories = listOf("가난", "성평등", "재능 기부", "빈곤", "쓰레기")
+fun Donation_Categories(mainViewModel: MainViewModel, selectedCategory: MutableState<String?>) {
+    val categories = listOf("가난", "성평등", "노인", "재능 기부", "빈곤", "쓰레기 오염", "깨끗한 물")
     val selectedCategories = mainViewModel.selectedCategories
     val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
 
@@ -131,8 +758,10 @@ fun Donation_Categories(mainViewModel: MainViewModel) {
         orderedCategories.forEach { category ->
             Donation_CategoryButton(
                 text = category,
-                isSelected = category in selectedCategories,
-                onClick = { mainViewModel.selectCategory(category) }
+                isSelected = category == selectedCategory.value,
+                onClick = {
+                    selectedCategory.value = category
+                }
             )
         }
     }
@@ -158,18 +787,13 @@ fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Un
 }
 
 @Composable
-fun Main_DonationItem(
-    imageRes: Int,
-    title: String,
-    money: String,
-    progress: Float,
-    progressText: String
-) {
+fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Float, progressText: String, nav: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { nav.navigate("donation_detail_screen/$imageRes/$title/$money") }, // 아이템 클릭 시 donation_detail_screen으로 이동
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -213,6 +837,7 @@ fun Main_DonationItem(
         }
     }
 }
+
 
 
 @Composable
@@ -317,7 +942,7 @@ fun Donation_FeaturedStory(navController: NavController) {
 }
 
 @Composable
-fun Donation_Recommendation() {
+fun Donation_Recommendation(selectedTab: MutableState<String>, selectedCategory: MutableState<String?>) {
     Column {
         Text(
             text = "후원 추천",
@@ -325,24 +950,30 @@ fun Donation_Recommendation() {
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Donation_TabRow()
-        //Spacer(modifier = Modifier.height(16.dp))
-        //Donation_Item()
+        Donation_TabRow(selectedTab, selectedCategory)
     }
 }
 
-@Composable
-fun Donation_TabRow() {
-    var selectedTab by remember { mutableStateOf("인기 목록") }
 
+@Composable
+fun Donation_TabRow(selectedTab: MutableState<String>, selectedCategory: MutableState<String?>) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        TabItem(text = "인기 목록", isSelected = selectedTab == "인기 목록") { selectedTab = "인기 목록" }
-        TabItem(text = "국내 후원", isSelected = selectedTab == "국내 후원") { selectedTab = "국내 후원" }
-        TabItem(text = "국외 후원", isSelected = selectedTab == "국외 후원") { selectedTab = "국외 후원" }
+        TabItem(text = "인기 목록", isSelected = selectedTab.value == "인기 목록") {
+            selectedTab.value = "인기 목록"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
+        TabItem(text = "국내 후원", isSelected = selectedTab.value == "국내 후원") {
+            selectedTab.value = "국내 후원"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
+        TabItem(text = "국외 후원", isSelected = selectedTab.value == "국외 후원") {
+            selectedTab.value = "국외 후원"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
     }
 }
 

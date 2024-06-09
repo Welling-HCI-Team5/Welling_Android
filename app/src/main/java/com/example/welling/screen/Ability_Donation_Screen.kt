@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,37 +56,479 @@ data class AbilityItemData(
 
 @Composable
 fun Ability_Donation_Screen(navController: NavController, mainViewModel: MainViewModel) {
-    val nav = rememberNavController()
-    val donationItems = listOf(
-        AbilityItemData(
-            imageRes = R.drawable.smile,
-            title = "아프리카에서 한국어 선생님을 모집합니다",
-            description = "아프리카 케냐 (항공 지원)",
-            progress = 0.55f,
-            progressText = "55%"
+    val abilityItems = mapOf(
+        "국제" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.smile,
+                title = "아프리카에서 한국어 선생님을 모집합니다",
+                description = "아프리카 케냐 (항공 지원)",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.grandma,
+                title = "지속가능한 요양사 선생님을 모집합니다",
+                description = "서울",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.water,
+                title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
+                description = "온라인",
+                progress = 0.75f,
+                progressText = "75%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.goat,
+                title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+                description = "호주 시드니",
+                progress = 0.10f,
+                progressText = "10%"
+            )
         ),
-        AbilityItemData(
-            imageRes = R.drawable.grandma,
-            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
-            description = "서울시 송파구 (사랑나눔재단)",
-            progress = 0.40f,
-            progressText = "40%"
+        "예체능" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_1_1,
+                title = "예술 교육 지원",
+                description = "서울",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "미술 지원",
+                description = "인천",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "축구 지원",
+                description = "대전",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "영화 지원",
+                description = "부산",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+
         ),
-        AbilityItemData(
-            imageRes = R.drawable.water,
-            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
-            description = "온라인",
-            progress = 0.75f,
-            progressText = "75%"
+        "자원 봉사" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_2_1,
+                title = "자원 봉사 활동",
+                description = "부산",
+                progress = 0.80f,
+                progressText = "80%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_2_2,
+                title = "돌봄이 활동",
+                description = "대구",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_2_3,
+                title = "요양원 활동",
+                description = "서울",
+                progress = 0.20f,
+                progressText = "20%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_2_4,
+                title = "어린이집 활동",
+                description = "부산",
+                progress = 0.50f,
+                progressText = "50%"
+            )
         ),
-        AbilityItemData(
-            imageRes = R.drawable.goat,
-            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
-            description = "호주 시드니",
-            progress = 0.10f,
-            progressText = "10%"
+        "교육" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "교육 지원",
+                description = "대구",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "어린이집 지원",
+                description = "대전",
+                progress = 0.10f,
+                progressText = "10%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "중학교 지원",
+                description = "서울",
+                progress = 0.45f,
+                progressText = "45%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "요양원 교육 지원",
+                description = "울산",
+                progress = 0.10f,
+                progressText = "10%"
+            )
+        ),
+        "IT & 사회" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_4_1,
+                title = "IT 교육 지원",
+                description = "대전",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_4_2,
+                title = "박람회 지원",
+                description = "서울",
+                progress = 0.25f,
+                progressText = "25%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_4_3,
+                title = "대회 지원",
+                description = "여주",
+                progress = 0.88f,
+                progressText = "88%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_4_4,
+                title = "해커톤 지원",
+                description = "서울",
+                progress = 0.60f,
+                progressText = "60%"
+            )
         )
     )
+
+    val domesticAbilityItems = mapOf(
+        "국제" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.a_1_1,
+                title = "국내 한국어 선생님을 모집합니다",
+                description = "서울",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.grandma,
+                title = "국내 요양사 선생님 모집",
+                description = "부산",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.a_1_2,
+                title = "국내 협동조합을 통한 지속가능 목표 달성에 대한 기부",
+                description = "부산",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.goat,
+                title = "국내 동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+                description = "부산",
+                progress = 0.40f,
+                progressText = "40%"
+            )
+        ),
+        "예체능" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "국내 예술 교육 지원",
+                description = "서울",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "국내 미술 지원",
+                description = "인천",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "국내 축구 지원",
+                description = "대전",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_3,
+                title = "국내 영화 지원",
+                description = "부산",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+        ),
+        "자원 봉사" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "국내 자원 봉사 활동",
+                description = "대구",
+                progress = 0.80f,
+                progressText = "80%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "국내 돌봄이 활동",
+                description = "대전",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "국내 요양원 활동",
+                description = "울산",
+                progress = 0.20f,
+                progressText = "20%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_2,
+                title = "국내 어린이집 활동",
+                description = "온라인",
+                progress = 0.50f,
+                progressText = "50%"
+            )
+        ),
+        "교육" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "국내 교육 지원",
+                description = "대구",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_5_2,
+                title = "국내 어린이집 지원",
+                description = "대전",
+                progress = 0.10f,
+                progressText = "10%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_5_3,
+                title = "국내 중학교 지원",
+                description = "서울",
+                progress = 0.45f,
+                progressText = "45%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_5_4,
+                title = "국내 요양원 교육 지원",
+                description = "울산",
+                progress = 0.10f,
+                progressText = "10%"
+            )
+        ),
+
+        "IT & 사회" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_6_1,
+                title = "국내 IT 교육 지원",
+                description = "대전",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_6_2,
+                title = "국내 박람회 지원",
+                description = "서울",
+                progress = 0.25f,
+                progressText = "25%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_6_3,
+                title = "국내 대회 지원",
+                description = "여주",
+                progress = 0.88f,
+                progressText = "88%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_6_4,
+                title = "국내 해커톤 지원",
+                description = "서울",
+                progress = 0.60f,
+                progressText = "60%"
+            )
+        )
+    )
+
+    val internationalAbilityItems = mapOf(
+        "국제" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.smile,
+                title = "국외 한국어 선생님을 모집합니다",
+                description = "아프리카 케냐",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.goat,
+                title = "국외 동물 보호 지원",
+                description = "호주 시드니",
+                progress = 0.10f,
+                progressText = "10%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_7_2,
+                title = "국외 협동조합을 통한 지속가능 목표 달성에 대한 기부",
+                description = "온라인",
+                progress = 0.75f,
+                progressText = "75%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_7_1,
+                title = "국외 동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+                description = "호주 시드니",
+                progress = 0.10f,
+                progressText = "10%"
+            )
+        ),
+        "예체능" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "국외 예술 교육 지원",
+                description = "영국",
+                progress = 0.65f,
+                progressText = "65%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_2_2,
+                title = "국외 미술 지원",
+                description = "프랑스",
+                progress = 0.40f,
+                progressText = "40%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_4_3,
+                title = "국외 축구 지원",
+                description = "스페인",
+                progress = 0.55f,
+                progressText = "55%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_6_4,
+                title = "국외 영화 지원",
+                description = "온라인",
+                progress = 0.80f,
+                progressText = "80%"
+            )
+
+        ),
+        "자원 봉사" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "국외 자원 봉사 활동",
+                description = "케냐",
+                progress = 0.80f,
+                progressText = "80%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_5_2,
+                title = "국외 돌봄이 활동",
+                description = "일본",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "국외 요양원 활동",
+                description = "미국",
+                progress = 0.20f,
+                progressText = "20%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_1_4,
+                title = "국외 어린이집 활동",
+                description = "온라인",
+                progress = 0.50f,
+                progressText = "50%"
+            )
+        ),
+        "교육" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_3_2,
+                title = "국외 교육 지원",
+                description = "중국",
+                progress = 0.90f,
+                progressText = "90%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "국외 어린이집 지원",
+                description = "캐나다",
+                progress = 0.10f,
+                progressText = "10%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_1,
+                title = "국외 중학교 지원",
+                description = "온라인",
+                progress = 0.45f,
+                progressText = "45%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_3,
+                title = "국외 요양원 교육 지원",
+                description = "미국",
+                progress = 0.10f,
+                progressText = "10%"
+            )
+        ),
+        "IT & 사회" to listOf(
+            AbilityItemData(
+                imageRes = R.drawable.d_5_1,
+                title = "국외 IT 교육 지원",
+                description = "터키",
+                progress = 0.70f,
+                progressText = "70%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_6_2,
+                title = "국외 박람회 지원",
+                description = "이스라엘",
+                progress = 0.25f,
+                progressText = "25%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_7_3,
+                title = "국외 대회 지원",
+                description = "독일",
+                progress = 0.88f,
+                progressText = "88%"
+            ),
+            AbilityItemData(
+                imageRes = R.drawable.d_3_4,
+                title = "국외 해커톤 지원",
+                description = "해커톤",
+                progress = 0.60f,
+                progressText = "60%"
+            )
+        )
+    )
+
+    val selectedTab = remember { mutableStateOf("인기 목록") }
+    val selectedCategory = remember { mutableStateOf<String?>(null) }
+
+    val itemsToDisplay = when {
+        selectedTab.value == "국내 모집" && selectedCategory.value != null -> domesticAbilityItems[selectedCategory.value]?.take(4) ?: listOf()
+        selectedTab.value == "국외 모집" && selectedCategory.value != null -> internationalAbilityItems[selectedCategory.value]?.take(4) ?: listOf()
+        selectedCategory.value != null -> abilityItems[selectedCategory.value] ?: listOf()
+        selectedTab.value == "국내 모집" -> domesticAbilityItems.values.flatten().take(4)
+        selectedTab.value == "국외 모집" -> internationalAbilityItems.values.flatten().take(4)
+        else -> abilityItems.values.flatten().take(4)
+    }
 
     Column(
         modifier = Modifier
@@ -97,12 +540,12 @@ fun Ability_Donation_Screen(navController: NavController, mainViewModel: MainVie
         Spacer(modifier = Modifier.height(30.dp))
         Ability_NeedHelp(navController)
         Spacer(modifier = Modifier.height(25.dp))
-        Ability_Categories(mainViewModel)
+        Ability_Categories(mainViewModel, selectedCategory)
         Spacer(modifier = Modifier.height(20.dp))
-        Ability_DonationRecommendation()
+        Ability_DonationRecommendation(selectedTab, selectedCategory)
         Spacer(modifier = Modifier.height(16.dp))
 
-        donationItems.forEach { item ->
+        itemsToDisplay.forEach { item ->
             Ability_DonationItem(
                 imageRes = item.imageRes,
                 title = item.title,
@@ -117,10 +560,9 @@ fun Ability_Donation_Screen(navController: NavController, mainViewModel: MainVie
 }
 
 @Composable
-fun Ability_Categories(mainViewModel: MainViewModel) {
+fun Ability_Categories(mainViewModel: MainViewModel, selectedCategory: MutableState<String?>) {
     val categories = listOf("국제", "예체능", "자원 봉사", "교육", "IT & 사회")
-    val selectedCategories = mainViewModel.selectedCategories
-    val orderedCategories = selectedCategories + categories.filter { it !in selectedCategories }
+    val orderedCategories = categories // Removed dependency on selectedCategories from mainViewModel
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -130,12 +572,15 @@ fun Ability_Categories(mainViewModel: MainViewModel) {
         orderedCategories.forEach { category ->
             Ability_CategoryButton(
                 text = category,
-                isSelected = category in selectedCategories,
-                onClick = { mainViewModel.selectCategory(category) }
+                isSelected = category == selectedCategory.value,
+                onClick = {
+                    selectedCategory.value = category
+                }
             )
         }
     }
 }
+
 
 @Composable
 fun Ability_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
@@ -296,7 +741,7 @@ fun Ability_NeedHelp(navController: NavController) {
 }
 
 @Composable
-fun Ability_DonationRecommendation() {
+fun Ability_DonationRecommendation(selectedTab: MutableState<String>, selectedCategory: MutableState<String?>) {
     Column {
         Text(
             text = "재능 기부 모집",
@@ -304,25 +749,29 @@ fun Ability_DonationRecommendation() {
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Ability_TabRow()
-        Spacer(modifier = Modifier.height(8.dp))
-        // Ability_DonationItem()은 리스트에서 반복되므로 제거합니다
+        Ability_TabRow(selectedTab, selectedCategory)
     }
 }
 
 @Composable
-fun Ability_TabRow() {
-    var selectedTab by remember { mutableStateOf("인기 목록") }
-
+fun Ability_TabRow(selectedTab: MutableState<String>, selectedCategory: MutableState<String?>) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        TabItem(text = "인기 목록", isSelected = selectedTab == "인기 목록") { selectedTab = "인기 목록" }
-        TabItem(text = "국내 모집", isSelected = selectedTab == "국내 모집") { selectedTab = "국내 모집" }
-        TabItem(text = "국외 모집", isSelected = selectedTab == "국외 모집") { selectedTab = "국외 모집" }
+        TabItem(text = "인기 목록", isSelected = selectedTab.value == "인기 목록") {
+            selectedTab.value = "인기 목록"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
+        TabItem(text = "국내 모집", isSelected = selectedTab.value == "국내 모집") {
+            selectedTab.value = "국내 모집"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
+        TabItem(text = "국외 모집", isSelected = selectedTab.value == "국외 모집") {
+            selectedTab.value = "국외 모집"
+            selectedCategory.value = selectedCategory.value // 선택된 카테고리 유지
+        }
     }
 }
 
@@ -339,7 +788,8 @@ fun Ability_DonationItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { nav.navigate("donation_detail_screen/$imageRes/$title/$description") }, // 아이템 클릭 시 donation_detail_screen으로 이동
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -428,6 +878,7 @@ fun Ability_Component(
         )
     }
 }
+
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=1164dp")
 @Composable
