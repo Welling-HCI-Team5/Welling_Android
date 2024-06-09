@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Text
@@ -31,7 +30,7 @@ fun TopAppBar(
         backgroundColor = Color.White,
         contentPadding = PaddingValues(horizontal = 5.dp),
         elevation = 0.dp,
-        modifier = Modifier.padding(0.dp, 50.dp, 0.dp, 0.dp)
+//        modifier = Modifier.padding(0.dp, 50.dp, 0.dp, 0.dp)
     ) {
         Row(
             modifier = Modifier

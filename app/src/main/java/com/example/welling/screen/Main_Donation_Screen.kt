@@ -17,16 +17,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,18 +38,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
-
 import com.example.welling.R
-import com.example.welling.ui.theme.WellingTheme
 import com.example.welling.component.TabItem
-import com.example.welling.component.BottomNavigationBar
-
-
+import com.example.welling.ui.theme.WellingTheme
 
 
 // 후원 화면
@@ -99,32 +90,32 @@ fun Main_Donation_Screen(navController: NavController, mainViewModel: MainViewMo
     )
 
     Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-        ) {
-            Donation_Header()
-            Spacer(modifier = Modifier.height(30.dp))
-            Donation_FeaturedStory(navController)
-            Spacer(modifier = Modifier.height(45.dp))
-            Donation_Categories(mainViewModel)
-            Spacer(modifier = Modifier.height(20.dp))
-            Donation_Recommendation()
-            Spacer(modifier = Modifier.height(16.dp))
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Donation_Header()
+        Spacer(modifier = Modifier.height(30.dp))
+        Donation_FeaturedStory(navController)
+        Spacer(modifier = Modifier.height(45.dp))
+        Donation_Categories(mainViewModel)
+        Spacer(modifier = Modifier.height(20.dp))
+        Donation_Recommendation()
+        Spacer(modifier = Modifier.height(16.dp))
 
-            donationItems.forEach { item ->
-                Main_DonationItem(
-                    imageRes = item.imageRes,
-                    title = item.title,
-                    money = item.money,
-                    progress = item.progress,
-                    progressText = item.progressText
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+        donationItems.forEach { item ->
+            Main_DonationItem(
+                imageRes = item.imageRes,
+                title = item.title,
+                money = item.money,
+                progress = item.progress,
+                progressText = item.progressText
+            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
+}
 
 @Composable
 fun Donation_Categories(mainViewModel: MainViewModel) {
@@ -167,7 +158,13 @@ fun Donation_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Un
 }
 
 @Composable
-fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Float, progressText: String) {
+fun Main_DonationItem(
+    imageRes: Int,
+    title: String,
+    money: String,
+    progress: Float,
+    progressText: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -216,9 +213,6 @@ fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Flo
         }
     }
 }
-
-
-
 
 
 @Composable
@@ -294,8 +288,18 @@ fun Donation_FeaturedStory(navController: NavController) {
                 .horizontalScroll(rememberScrollState()), // 수평 스크롤 가능하게 설정
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Article_Component(navController = navController, imageRes = R.drawable.banner, title = "폐지와 동전을 줍는 6살 서연이의 따뜻한 겨울나기를 도와주세요", description = "서연이")
-            Article_Component(navController = navController, imageRes = R.drawable.card, title = "굶주린 아이들을 위해 후원 바랍니다", description = "굶주린")
+            Article_Component(
+                navController = navController,
+                imageRes = R.drawable.banner,
+                title = "폐지와 동전을 줍는 6살 서연이의 따뜻한 겨울나기를 도와주세요",
+                description = "서연이"
+            )
+            Article_Component(
+                navController = navController,
+                imageRes = R.drawable.card,
+                title = "굶주린 아이들을 위해 후원 바랍니다",
+                description = "굶주린"
+            )
         }
     }
 }
@@ -336,7 +340,7 @@ fun Article_Component(
     imageRes: Int,
     title: String,
     description: String = "안녕하세요"
-){
+) {
     Column(
         modifier = Modifier
             .width(327.dp)
@@ -346,7 +350,7 @@ fun Article_Component(
             }
     ) {
         Image(
-            painter = painterResource(R.drawable.banner), // 첫 번째 이미지
+            painter = painterResource(imageRes), // 인자로 넘어온 이미지를 화면에 띄움
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -368,7 +372,6 @@ fun Article_Component(
         )
     }
 }
-
 
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
