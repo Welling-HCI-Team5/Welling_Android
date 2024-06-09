@@ -789,7 +789,7 @@ fun Ability_DonationItem(
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(10.dp))
             .padding(16.dp)
-            .clickable { nav.navigate("donation_detail_screen") }, // 아이템 클릭 시 donation_detail_screen으로 이동
+            .clickable { nav.navigate("donation_detail_screen/$imageRes/$title/$description") }, // 아이템 클릭 시 donation_detail_screen으로 이동
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -831,6 +831,51 @@ fun Ability_DonationItem(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun Ability_Component(
+    navController: NavController,
+    imageRes: Int,
+    location: String, // ex) 경기 광주
+    title: String, // ex) 다문화 가정, 미혼모 자녀들의 교습소에서
+    description: String,
+) {
+    Column(
+        modifier = Modifier
+            .width(301.dp)
+            .clickable {
+                navController.navigate("donation_detail_screen/$imageRes/$title/$description")
+            }
+    ) {
+        Image(
+            painter = painterResource(imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(158.dp)
+                .clip(RoundedCornerShape(10.dp))
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = location,
+            fontSize = 12.sp,
+            color = Color(0xFFA4D41C)
+        )
+        Text(
+            text = title,
+            fontSize = 14.sp,
+            lineHeight = 24.sp,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color(0xFFF2F4F5))
+        )
     }
 }
 

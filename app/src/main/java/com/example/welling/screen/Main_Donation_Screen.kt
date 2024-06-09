@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -792,7 +793,7 @@ fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Flo
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(10.dp))
             .padding(16.dp)
-            .clickable { nav.navigate("donation_detail_screen") }, // 아이템 클릭 시 donation_detail_screen으로 이동
+            .clickable { nav.navigate("donation_detail_screen/$imageRes/$title/$money") }, // 아이템 클릭 시 donation_detail_screen으로 이동
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -836,6 +837,7 @@ fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Flo
         }
     }
 }
+
 
 
 @Composable
