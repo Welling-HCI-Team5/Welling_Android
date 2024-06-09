@@ -17,16 +17,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,18 +38,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
-
 import com.example.welling.R
-import com.example.welling.ui.theme.WellingTheme
 import com.example.welling.component.TabItem
-import com.example.welling.component.BottomNavigationBar
-
-
+import com.example.welling.ui.theme.WellingTheme
 
 
 // 후원 화면
@@ -847,9 +838,6 @@ fun Main_DonationItem(imageRes: Int, title: String, money: String, progress: Flo
 }
 
 
-
-
-
 @Composable
 fun Donation_Header() {
     Column(
@@ -923,8 +911,30 @@ fun Donation_FeaturedStory(navController: NavController) {
                 .horizontalScroll(rememberScrollState()), // 수평 스크롤 가능하게 설정
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Article_Component(navController = navController, imageRes = R.drawable.banner, title = "폐지와 동전을 줍는 6살 서연이의 따뜻한 겨울나기를 도와주세요", description = "서연이")
-            Article_Component(navController = navController, imageRes = R.drawable.card, title = "굶주린 아이들을 위해 후원 바랍니다", description = "굶주린")
+            Article_Component(
+                navController = navController,
+                imageRes = R.drawable.banner,
+                title = "폐지와 동전을 줍는 6살 서연이의 따뜻한 겨울나기를 도와주세요",
+                description = "  6살 서연이는 어린 나이에도 불구하고 매일 폐지와 동전을 줍기 위해 거리를 나섭니다. 그의 부모님은 경제적인 어려움으로 인해 일을 구하기 힘들어 하시고, 서연이는 가족을 돕기 위해 이른 새벽부터 늦은 밤까지 길거리에서 작은 손으로 폐지와 동전을 모으고 있습니다.\n" +
+                        "\n" +
+                        "  서연이는 매서운 겨울바람을 맞으며 조금이라도 더 모으기 위해 노력합니다. 차가운 길거리를 걸을 때마다 서연이의 작은 손과 얼굴은 빨갛게 얼어붙습니다. 이 어린 소녀가 무거운 폐지 뭉치를 들고 다니는 모습은 주변 사람들의 마음을 아프게 합니다.\n" +
+                        "\n" +
+                        "  서연이의 가족은 따뜻한 겨울을 보내기 위해 여러 도움의 손길을 필요로 합니다. 기본적인 생활비는 물론, 서연이의 건강을 위해 겨울옷과 음식도 절실히 필요합니다. 서연이가 추운 겨울을 따뜻하고 건강하게 보낼 수 있도록 우리 모두가 함께 도울 수 있습니다.\n" +
+                        "\n" +
+                        "  서연이의 이야기는 많은 사람들에게 큰 감동을 주고 있습니다. 작은 도움이 모여 큰 힘이 될 수 있습니다. 따뜻한 겨울을 보낼 수 있도록 서연이와 그의 가족에게 사랑과 지원을 보내주세요."
+            )
+            Article_Component(
+                navController = navController,
+                imageRes = R.drawable.card,
+                title = "굶주린 아이들을 위해 후원 바랍니다",
+                description = "  오늘날 전 세계에는 수백만 명의 아이들이 매일 굶주림과 싸우고 있습니다. 빈곤과 기아로 고통받는 이 아이들은 제대로 된 식사를 하지 못한 채 하루하루를 버티고 있습니다. 이 아이들의 배고픔을 해결하기 위해 여러분의 도움이 절실합니다.\n" +
+                        "\n" +
+                        "  굶주린 아이들은 신체적, 정신적 발달에 심각한 영향을 받습니다. 영양 부족으로 인한 건강 문제와 함께, 배움의 기회마저 박탈당한 채 성장하고 있습니다. 이 아이들이 건강하고 밝은 미래를 꿈꿀 수 있도록 우리 모두가 힘을 모아야 할 때입니다.\n" +
+                        "\n" +
+                        "  세계 각지에서 진행되고 있는 구호 활동들은 아이들에게 필요한 식량과 의료 지원을 제공하고 있습니다. 그러나 여전히 많은 지역에서는 도움이 부족합니다. 특히, 전쟁이나 자연재해로 인해 고통받는 지역의 아이들은 더욱 심각한 상황에 놓여 있습니다.\n" +
+                        "\n" +
+                        "  여러분의 작은 후원은 큰 변화를 만들어낼 수 있습니다. 한 끼의 식사, 깨끗한 물, 그리고 교육의 기회가 이 아이들에게는 새로운 희망이 됩니다. 후원을 통해 아이들이 건강하게 자라고, 교육을 받으며, 밝은 미래를 꿈꿀 수 있도록 함께해 주세요."
+            )
         }
     }
 }
@@ -981,7 +991,7 @@ fun Article_Component(
             }
     ) {
         Image(
-            painter = painterResource(imageRes), // 이미지 리소스를 사용
+            painter = painterResource(imageRes), // 인자로 넘어온 이미지를 화면에 띄움
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -1003,7 +1013,6 @@ fun Article_Component(
         )
     }
 }
-
 
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=812dp")
