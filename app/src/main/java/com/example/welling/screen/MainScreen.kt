@@ -1,19 +1,12 @@
 package com.example.welling.screen
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -31,12 +24,21 @@ fun MainScreen(navController: NavHostController) {
         "main_donation", "ability_donation", "notifications", "my_page" -> true
         else -> false
     }
-    Scaffold(bottomBar = {
-        if (bottomBarVisible) {
 
-            BottomNavigationBar(navController = navController)
+    val topBarHide = currentRoute == "splash_screen"
+
+    Scaffold(
+        topBar = {
+            if (topBarHide) {
+                // 여기서는 상단바를 숨기는 부분만 작성해 둠 (상단바 필요한 화면에서 각각 TopAppBar 호출하면 됨)
+                Box(modifier = Modifier) {} // 빈 Box로 대체하여 상단바 공간을 확보하지 않음
+            }
+        },
+        bottomBar = {
+            if (bottomBarVisible) {
+                BottomNavigationBar(navController = navController)
+            }
         }
-    }
     ) {
         Box(Modifier.padding(it)) {
             NavigationComponent(navController = navController)
