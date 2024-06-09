@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
@@ -44,7 +45,7 @@ import com.example.welling.ui.theme.WellingTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageScreen(navController: NavHostController) {
+fun MyPageScreen(navController: NavController) {
     var selectedPeriod by remember { mutableStateOf("최근 7일 기준") }
     val periodOptions = listOf("최근 7일 기준", "최근 30일 기준", "최근 1년 기준")
 
