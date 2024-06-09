@@ -40,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.welling.R
 import com.example.welling.component.BtnMainColor
@@ -161,7 +162,8 @@ fun DonationDetailScreen(
                     textOnClick = null,
                     spacerHeight = 16.dp
                 )
-                Spacer(modifier = Modifier.height(200.dp))
+//                Spacer(modifier = Modifier.height(200.dp))
+                SimilarPrograms(navController)
 
                 // 기자 정보
                 AuthorInfoBox(
@@ -281,6 +283,56 @@ fun CustomProgressBox(
         }
         Spacer(modifier = Modifier.height(spacerHeight))
     }
+}
+
+// 비슷한 프로그램 dummy data로 구현
+@Composable
+fun SimilarPrograms(navController: NavController) {
+    val similiarItems = listOf(
+        AbilityItemData(
+            imageRes = R.drawable.smile,
+            title = "아프리카에서 한국어 선생님을 모집합니다",
+            description = "아프리카 케냐 (항공 지원)",
+            progress = 0.55f,
+            progressText = "55%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.grandma,
+            title = "지속가능한 요양사 선생님을 모집합니다 (서울)",
+            description = "서울시 송파구 (사랑나눔재단)",
+            progress = 0.40f,
+            progressText = "40%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.water,
+            title = "협동조합을 통한 지속가능 목표 달성에 대한 기부",
+            description = "온라인",
+            progress = 0.75f,
+            progressText = "75%"
+        ),
+        AbilityItemData(
+            imageRes = R.drawable.goat,
+            title = "동물 보호를 위한 국제 협회 지원 사업 재능 봉사",
+            description = "호주 시드니",
+            progress = 0.10f,
+            progressText = "10%"
+        )
+    )
+
+    Column {
+        similiarItems.forEach { item ->
+            Ability_DonationItem(
+                imageRes = item.imageRes,
+                title = item.title,
+                description = item.description,
+                progress = item.progress,
+                progressText = item.progressText,
+                nav = navController
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+
 }
 
 @Composable
