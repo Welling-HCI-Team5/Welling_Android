@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
 import com.example.welling.component.BtnMainColor
 import com.example.welling.component.CustomTextBox
@@ -49,7 +48,14 @@ import com.example.welling.ui.theme.WellingTheme
 
 
 @Composable
-fun DonationDetailScreen(navController: NavHostController) {
+fun DonationDetailScreen(
+    navController: NavHostController,
+    imageRes: String, // Int
+    title: String,
+    description: String
+) {
+    val imageResToInt = imageRes.toInt()
+
     val context = LocalContext.current
     val scrollState = rememberScrollState() // 스크롤 상태를 기억
 
@@ -59,12 +65,19 @@ fun DonationDetailScreen(navController: NavHostController) {
     currentDonatorNum = 442
     currentProgress = 0.1F
 
+    var donationName = title
+    //val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd (E)  HH:mm")
+    var donationDate = "2024.05.30 (목) 13:24"//formatter.format(LocalDate.now())
+    //"2024.05.30 (목) 13:24"
+    var donationImgId = imageResToInt
+    var donationContent = description
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             // 상단바
             TopAppBar(
                 onBackIconClick = { navController.popBackStack() },
-                title = "기부 ",
+                title = "기부",
                 onRightIconClick = null,
                 rightIconImgId = null,
             )
@@ -77,7 +90,7 @@ fun DonationDetailScreen(navController: NavHostController) {
             ) {
                 // 사진
                 Image(
-                    painter = painterResource(id = R.drawable.img_donation_boy),
+                    painter = painterResource(id = donationImgId),
                     contentDescription = "기부 상세 화면 이미지",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -111,7 +124,7 @@ fun DonationDetailScreen(navController: NavHostController) {
 
                 // 기부 상세 정보 (제목, 내용)
                 CustomTextBox( // 제목
-                    text = "공정무역 청소년을 위한 기부",
+                    text = donationName,
                     colorId = R.color.semi_black,
                     fontSize = 22.sp,
                     fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
@@ -119,9 +132,7 @@ fun DonationDetailScreen(navController: NavHostController) {
                     spacerHeight = 24.dp
                 )
                 CustomTextBox( // 내용
-                    text = "이 기부는 공정무역 청소년을 위한 기부입니다.\n" +
-                            "아직 수 많은 아프리카 지역의 아이들은 아동노동법에 위반하여, 제대로된 임금을 받지 못하고 초콜릿 공장에서 착취를 당하고 있습니다.\n\n" +
-                            "이 기부를 진행함으로써, 많은 아이들이 노동 착취로 부터 벗어날 수 있을 것 입니다.",
+                    text = donationContent,
                     colorId = R.color.semi_black,
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -310,6 +321,6 @@ fun AuthorInfoBox(
 @Composable
 fun Detail_DefaultPreview() {
     WellingTheme {
-        DonationDetailScreen(rememberNavController())
+//        DonationDetailScreen(rememberNavController())
     }
 }

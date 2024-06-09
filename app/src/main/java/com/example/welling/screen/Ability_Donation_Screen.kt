@@ -1,6 +1,5 @@
 package com.example.welling.screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,16 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.internal.isLiveLiteralsEnabled
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,13 +37,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.welling.R
-import com.example.welling.ui.theme.WellingTheme
-import com.example.welling.component.TabItem
-import com.example.welling.component.BottomNavigationBar
 import com.example.welling.MainViewModel
+import com.example.welling.R
+import com.example.welling.component.TabItem
+import com.example.welling.ui.theme.WellingTheme
 
 
 data class AbilityItemData(
@@ -92,33 +86,33 @@ fun Ability_Donation_Screen(navController: NavController, mainViewModel: MainVie
         )
     )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-        ) {
-            Ability_Header()
-            Spacer(modifier = Modifier.height(30.dp))
-            Ability_NeedHelp(navController)
-            Spacer(modifier = Modifier.height(25.dp))
-            Ability_Categories(mainViewModel)
-            Spacer(modifier = Modifier.height(20.dp))
-            Ability_DonationRecommendation()
-            Spacer(modifier = Modifier.height(16.dp))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Ability_Header()
+        Spacer(modifier = Modifier.height(30.dp))
+        Ability_NeedHelp(navController)
+        Spacer(modifier = Modifier.height(25.dp))
+        Ability_Categories(mainViewModel)
+        Spacer(modifier = Modifier.height(20.dp))
+        Ability_DonationRecommendation()
+        Spacer(modifier = Modifier.height(16.dp))
 
-            donationItems.forEach { item ->
-                Ability_DonationItem(
-                    imageRes = item.imageRes,
-                    title = item.title,
-                    description = item.description,
-                    progress = item.progress,
-                    progressText = item.progressText,
-                    nav = navController
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+        donationItems.forEach { item ->
+            Ability_DonationItem(
+                imageRes = item.imageRes,
+                title = item.title,
+                description = item.description,
+                progress = item.progress,
+                progressText = item.progressText,
+                nav = navController
+            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
+    }
 }
 
 @Composable
@@ -240,71 +234,20 @@ fun Ability_NeedHelp(navController: NavController) {
                 .horizontalScroll(rememberScrollState()), // 수평 스크롤 가능하게 설정
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .width(301.dp)
-                    .clickable { navController.navigate("donation_detail_screen") }
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.help), // 첫 번째 이미지
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(158.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "경기 광주",
-                    fontSize = 12.sp,
-                    color = Color(0xFFA4D41C)
-                )
-                Text(
-                    text = "다문화 가정, 미혼모 자녀들의 교습소에서",
-                    fontSize = 14.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Text(
-                    text = "일일 선생님을 모십니다",
-                    fontSize = 14.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFF2F4F5))
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .width(301.dp)
-                    .clickable { navController.navigate("donation_detail_screen") }
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.card), // 두 번째 이미지
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(158.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "굶주린 아이들을 위해 후원 바랍니다",
-                    fontSize = 14.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFF2F4F5))
-                )
-            }
+            Ability_Component(
+                navController = navController,
+                imageRes = R.drawable.img_article,
+                location = "경기 광주",
+                title = "다문화 가정, 미혼모 자녀들의 교습소에서\n일일 선생님을 모십니다",
+                description = "경기 광주 기사~~~~~~~~"
+            )
+            Ability_Component(
+                navController = navController,
+                imageRes = R.drawable.img_article,
+                location = "서울 노원",
+                title = "굶주린 아이들을 위해 후원 바랍니다",
+                description = "서울 노원 기사~~~~~~~~"
+            )
         }
     }
 }
@@ -349,55 +292,98 @@ fun Ability_DonationItem(
     progressText: String,
     nav: NavController
 ) {
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(10.dp))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(imageRes), // 아이템 이미지
+            contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(imageRes), // 아이템 이미지
-                contentDescription = null,
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Gray)
+                .size(80.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.Gray)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 20.sp
             )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    lineHeight = 20.sp
+            Text(
+                text = description,
+                fontSize = 12.sp,
+                color = Color(0xFF84B105),
+                fontWeight = FontWeight.Medium,
+                lineHeight = 16.sp
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                LinearProgressIndicator(
+                    progress = progress,
+                    modifier = Modifier
+                        .width(176.dp)
+                        .height(11.dp),
+                    color = Color(0xFFA4D41C)
                 )
                 Text(
-                    text = description,
+                    text = progressText,
+                    color = Color(0xFF6C7072),
                     fontSize = 12.sp,
-                    color = Color(0xFF84B105),
-                    fontWeight = FontWeight.Medium,
-                    lineHeight = 16.sp
+                    modifier = Modifier.padding(start = 4.dp)
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    LinearProgressIndicator(
-                        progress = progress,
-                        modifier = Modifier
-                            .width(176.dp)
-                            .height(11.dp),
-                        color = Color(0xFFA4D41C)
-                    )
-                    Text(
-                        text = progressText,
-                        color = Color(0xFF6C7072),
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
             }
+        }
     }
 }
 
+@Composable
+fun Ability_Component(
+    navController: NavController,
+    imageRes: Int,
+    location: String, // ex) 경기 광주
+    title: String, // ex) 다문화 가정, 미혼모 자녀들의 교습소에서
+    description: String,
+) {
+    Column(
+        modifier = Modifier
+            .width(301.dp)
+            .clickable {
+                navController.navigate("donation_detail_screen/$imageRes/$title/$description")
+            }
+    ) {
+        Image(
+            painter = painterResource(imageRes),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(158.dp)
+                .clip(RoundedCornerShape(10.dp))
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = location,
+            fontSize = 12.sp,
+            color = Color(0xFFA4D41C)
+        )
+        Text(
+            text = title,
+            fontSize = 14.sp,
+            lineHeight = 24.sp,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color(0xFFF2F4F5))
+        )
+    }
+}
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=1164dp")
 @Composable
