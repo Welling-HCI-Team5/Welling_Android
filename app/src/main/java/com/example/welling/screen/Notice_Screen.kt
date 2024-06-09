@@ -32,13 +32,10 @@ import com.example.welling.component.BottomNavigationBar
 
 @Composable
 fun Notice_Screen(navController: NavHostController) {
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
@@ -47,7 +44,7 @@ fun Notice_Screen(navController: NavHostController) {
             RecentWellingRecords()
         }
     }
-}
+
 
 @Composable
 fun GreetingSection() {

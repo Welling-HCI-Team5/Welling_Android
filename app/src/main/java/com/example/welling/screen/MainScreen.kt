@@ -5,44 +5,45 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.welling.component.BottomNavigationBar
+import com.example.welling.component.NavigationComponent
+
 //import com.example.welling.screen.MyPageScreen
 
 @Composable
 fun MainScreen(navController: NavHostController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val bottomBarVisible = when (currentRoute) {
+        "main_donation", "ability_donation", "notifications", "my_page" -> true
+        else -> false
+    }
+    Scaffold(bottomBar = {
+        if (bottomBarVisible) {
+
+            BottomNavigationBar(navController = navController)
+        }
+    }
     ) {
-        Text(
-            text = "메인 화면",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Button(
-            onClick = { navController.navigate("donation_progress") },
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-        ) {
-            Text(
-                text = "기부하기",
-                color = Color.White,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+        Box(Modifier.padding(it)) {
+            NavigationComponent(navController = navController)
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

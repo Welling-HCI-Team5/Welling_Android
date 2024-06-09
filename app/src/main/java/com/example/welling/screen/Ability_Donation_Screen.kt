@@ -1,5 +1,6 @@
 package com.example.welling.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.internal.isLiveLiteralsEnabled
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
@@ -56,7 +59,8 @@ data class AbilityItemData(
 )
 
 @Composable
-fun Ability_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel) {
+fun Ability_Donation_Screen(navController: NavController, mainViewModel: MainViewModel) {
+    val nav = rememberNavController()
     val donationItems = listOf(
         AbilityItemData(
             imageRes = R.drawable.smile,
@@ -88,13 +92,9 @@ fun Ability_Donation_Screen(navController: NavHostController, mainViewModel: Mai
         )
     )
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
@@ -113,12 +113,12 @@ fun Ability_Donation_Screen(navController: NavHostController, mainViewModel: Mai
                     title = item.title,
                     description = item.description,
                     progress = item.progress,
-                    progressText = item.progressText
+                    progressText = item.progressText,
+                    nav = navController
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
-    }
 }
 
 @Composable
@@ -160,6 +160,7 @@ fun Ability_CategoryButton(text: String, isSelected: Boolean, onClick: () -> Uni
         )
     }
 }
+
 // 재능 기부
 @Composable
 fun Ability_Header() {
@@ -209,7 +210,7 @@ fun Ability_Header() {
 }
 
 @Composable
-fun Ability_NeedHelp(navController: NavHostController) {
+fun Ability_NeedHelp(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -340,56 +341,62 @@ fun Ability_TabRow() {
 }
 
 @Composable
-fun Ability_DonationItem(imageRes: Int, title: String, description: String, progress: Float, progressText: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(imageRes), // 아이템 이미지
-            contentDescription = null,
+fun Ability_DonationItem(
+    imageRes: Int,
+    title: String,
+    description: String,
+    progress: Float,
+    progressText: String,
+    nav: NavController
+) {
+        Row(
             modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.Gray)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                lineHeight = 20.sp
+                .fillMaxWidth()
+                .background(Color.White, shape = RoundedCornerShape(10.dp))
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(imageRes), // 아이템 이미지
+                contentDescription = null,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.Gray)
             )
-            Text(
-                text = description,
-                fontSize = 12.sp,
-                color = Color(0xFF84B105),
-                fontWeight = FontWeight.Medium,
-                lineHeight = 16.sp
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                LinearProgressIndicator(
-                    progress = progress,
-                    modifier = Modifier
-                        .width(176.dp)
-                        .height(11.dp),
-                    color = Color(0xFFA4D41C)
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 20.sp
                 )
                 Text(
-                    text = progressText,
-                    color = Color(0xFF6C7072),
+                    text = description,
                     fontSize = 12.sp,
-                    modifier = Modifier.padding(start = 4.dp)
+                    color = Color(0xFF84B105),
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 16.sp
                 )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    LinearProgressIndicator(
+                        progress = progress,
+                        modifier = Modifier
+                            .width(176.dp)
+                            .height(11.dp),
+                        color = Color(0xFFA4D41C)
+                    )
+                    Text(
+                        text = progressText,
+                        color = Color(0xFF6C7072),
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
             }
-        }
     }
 }
-
 
 
 @Preview(showBackground = true, device = "spec:width=375dp,height=1164dp")

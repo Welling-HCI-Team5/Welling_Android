@@ -89,11 +89,9 @@ fun DonationProgressScreen(navController: NavHostController) {
         }
     }
 
-    Scaffold() { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
         ) {
             Column(
                 modifier = Modifier
@@ -275,7 +273,7 @@ fun DonationProgressScreen(navController: NavHostController) {
                 )
             }
         }
-    }
+
 }
 
 @Preview(showBackground = true)

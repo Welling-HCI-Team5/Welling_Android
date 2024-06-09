@@ -48,14 +48,10 @@ fun MyPageScreen(navController: NavHostController) {
     var selectedPeriod by remember { mutableStateOf("최근 7일 기준") }
     val periodOptions = listOf("최근 7일 기준", "최근 30일 기준", "최근 1년 기준")
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(innerPadding) // Use innerPadding to adjust for bottom bar
                 .padding(16.dp)
         ) {
             item {
@@ -287,7 +283,6 @@ fun MyPageScreen(navController: NavHostController) {
                 }
             }
         }
-    }
 }
 
 @Composable

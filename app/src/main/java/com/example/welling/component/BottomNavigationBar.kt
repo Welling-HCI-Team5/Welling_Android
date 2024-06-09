@@ -21,27 +21,30 @@ import com.example.welling.ui.theme.WellingTheme
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
     BottomNavigation(
         backgroundColor = Color.White,
         contentColor = Color.Gray
     ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(if (currentRoute == "main_donation") R.drawable.colorhome else R.drawable.grayhome),
+                    painter = painterResource(R.drawable.grayhome),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             selected = currentRoute == "main_donation",
+            selectedContentColor = Color(0xFFA4D41C),
+            unselectedContentColor = Color.Gray,
             onClick = {
                 if (currentRoute != "main_donation") {
                     navController.navigate("main_donation") {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) { saveState = true }
                         }
                         launchSingleTop = true
                         restoreState = true
@@ -52,17 +55,19 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(if (currentRoute == "ability_donation") R.drawable.colorway else R.drawable.grayway),
+                    painter = painterResource(R.drawable.grayway),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             selected = currentRoute == "ability_donation",
+            selectedContentColor = Color(0xFFA4D41C),
+            unselectedContentColor = Color.Gray,
             onClick = {
                 if (currentRoute != "ability_donation") {
                     navController.navigate("ability_donation") {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) { saveState = true }
                         }
                         launchSingleTop = true
                         restoreState = true
@@ -73,17 +78,19 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(if (currentRoute == "notifications") R.drawable.colorbell else R.drawable.bell),
+                    painter = painterResource(R.drawable.bell),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             selected = currentRoute == "notifications",
+            selectedContentColor = Color(0xFFA4D41C),
+            unselectedContentColor = Color.Gray,
             onClick = {
                 if (currentRoute != "notifications") {
                     navController.navigate("notifications") {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) { saveState = true }
                         }
                         launchSingleTop = true
                         restoreState = true
@@ -94,17 +101,23 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(if (currentRoute == "my_page") R.drawable.coloruser else R.drawable.user),
+                    painter = painterResource(R.drawable.user),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             selected = currentRoute == "my_page",
+            selectedContentColor = Color(0xFFA4D41C),
+            unselectedContentColor = Color.Gray,
             onClick = {
                 if (currentRoute != "my_page") {
                     navController.navigate("my_page") {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+//                        popUpTo(navController.graph.startDestinationId) {
+//                            saveState = true
+//                        }
+                        //헉 코드 이렇게 짜면 안돼요
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) { saveState = true }
                         }
                         launchSingleTop = true
                         restoreState = true

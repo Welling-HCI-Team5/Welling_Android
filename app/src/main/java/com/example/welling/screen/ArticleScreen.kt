@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
@@ -30,20 +31,30 @@ import com.example.welling.component.BtnMainColor
 import com.example.welling.component.CustomTextBox
 import com.example.welling.component.TopAppBar
 import com.example.welling.ui.theme.WellingTheme
+import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun ArticleScreen(navController: NavHostController) {
+fun ArticleScreen(
+    navController: NavController,
+    imageRes: String,//Int
+    title: String,
+    description: String
+)
+{
+    val imageResToInt = imageRes.toInt()
+
     val context = LocalContext.current
     val scrollState = rememberScrollState() // 스크롤 상태를 기억
 
-    var articleName = "폐지와 동전을 줍는 6살 서연이의\n따뜻한 겨울나기를 도와주세요"
-    var articleDate = "2024.05.30 (목) 13:24"
-    var articleImgId = R.drawable.img_article
-    var articleContent = "이 기부는 공정무역 청소년을 위한 기부입니다.\n" +
-            "아직 수 많은 아프리카 지역의 아이들은 아동노동법에 위반하여, 제대로된 임금을 받지 못하고 초콜릿 공장에서 착취를 당하고 있습니다.\n" +
-            "\n" +
-            "아직 수 많은 아프리카 지역의 아이들은 아동노동법에 위반하여, 제대로된 임금을 받지 못하고 초콜릿 공장에서 착취를 당하고 있습니다.\n"
-
+    var articleName = title
+    //val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd (E)  HH:mm")
+    var articleDate = "2024.05.30 (목) 13:24"//formatter.format(LocalDate.now())
+       //"2024.05.30 (목) 13:24"
+    var articleImgId = imageResToInt
+    var articleContent = description
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             // 상단바
@@ -120,6 +131,6 @@ fun ArticleScreen(navController: NavHostController) {
 @Composable
 fun Article_DefaultPreview() {
     WellingTheme {
-        ArticleScreen(rememberNavController())
+        //ArticleScreen(rememberNavController())
     }
 }

@@ -1,6 +1,7 @@
 package com.example.welling.screen
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.welling.MainViewModel
@@ -64,7 +66,7 @@ data class DonationItemData(
 )
 
 @Composable
-fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainViewModel) {
+fun Main_Donation_Screen(navController: NavController, mainViewModel: MainViewModel) {
     val donationItems = listOf(
         DonationItemData(
             imageRes = R.drawable.donation_1,
@@ -96,13 +98,9 @@ fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainVi
         )
     )
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        Column(
+    Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
@@ -127,7 +125,6 @@ fun Main_Donation_Screen(navController: NavHostController, mainViewModel: MainVi
             }
         }
     }
-}
 
 @Composable
 fun Donation_Categories(mainViewModel: MainViewModel) {
@@ -267,7 +264,7 @@ fun Donation_Header() {
 }
 
 @Composable
-fun Donation_FeaturedStory(navController: NavHostController) {
+fun Donation_FeaturedStory(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -297,66 +294,8 @@ fun Donation_FeaturedStory(navController: NavHostController) {
                 .horizontalScroll(rememberScrollState()), // 수평 스크롤 가능하게 설정
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .width(327.dp)
-                    .clickable { navController.navigate("article_screen") }
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.banner), // 첫 번째 이미지
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(155.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "폐지와 동전을 줍는 6살 서연이의 ",
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Left,
-                    lineHeight = 24.sp
-                )
-                Text(
-                    text = "따뜻한 겨울나기를 도와주세요",
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Left,
-                    lineHeight = 24.sp
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFF2F4F5))
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .width(327.dp)
-                    .clickable { navController.navigate("article_screen") }
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.card), // 두 번째 이미지
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(158.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "굶주린 아이들을 위해 후원 바랍니다",
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Left,
-                    lineHeight = 24.sp
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFF2F4F5))
-                )
-            }
+            Article_Component(navController = navController, imageRes = R.drawable.banner, title = "폐지와 동전을 줍는 6살 서연이의 따뜻한 겨울나기를 도와주세요", description = "서연이")
+            Article_Component(navController = navController, imageRes = R.drawable.card, title = "굶주린 아이들을 위해 후원 바랍니다", description = "굶주린")
         }
     }
 }
@@ -391,6 +330,44 @@ fun Donation_TabRow() {
     }
 }
 
+@Composable
+fun Article_Component(
+    navController: NavController,
+    imageRes: Int,
+    title: String,
+    description: String = "안녕하세요"
+){
+    Column(
+        modifier = Modifier
+            .width(327.dp)
+            .clickable {
+                Log.d("클릭", "click")
+                navController.navigate("article_screen/$imageRes/$title/$description")
+            }
+    ) {
+        Image(
+            painter = painterResource(R.drawable.banner), // 첫 번째 이미지
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(155.dp)
+                .clip(RoundedCornerShape(10.dp))
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = title,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Left,
+            lineHeight = 24.sp
+        )
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color(0xFFF2F4F5))
+        )
+    }
+}
 
 
 
