@@ -24,17 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.welling.R
 import com.example.welling.component.BtnMainColor
 import com.example.welling.component.CustomTextBox
 import com.example.welling.component.TopAppBar
 import com.example.welling.ui.theme.WellingTheme
-import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun ArticleScreen(
@@ -42,8 +36,7 @@ fun ArticleScreen(
     imageRes: String,//Int
     title: String,
     description: String
-)
-{
+) {
     val imageResToInt = imageRes.toInt()
 
     val context = LocalContext.current
@@ -52,7 +45,7 @@ fun ArticleScreen(
     var articleName = title
     //val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd (E)  HH:mm")
     var articleDate = "2024.05.30 (목) 13:24"//formatter.format(LocalDate.now())
-       //"2024.05.30 (목) 13:24"
+    //"2024.05.30 (목) 13:24"
     var articleImgId = imageResToInt
     var articleContent = description
     Box(modifier = Modifier.fillMaxSize()) {
