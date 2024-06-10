@@ -38,7 +38,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                 Icon(
                     painter = painterResource(id = R.drawable.home),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = if (currentRoute == "main_donation") Color(0xFFA4D41C) else Color.Gray
                 )
             },
             selected = currentRoute == "main_donation",
@@ -59,9 +60,10 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(R.drawable.grayway),
+                    painter = painterResource(R.drawable.icon__donate),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = if (currentRoute == "ability_donation") Color(0xFFA4D41C) else Color.Gray
                 )
             },
             selected = currentRoute == "ability_donation",
@@ -82,9 +84,10 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(R.drawable.bell),
+                    painter = painterResource(R.drawable.icon_bell),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = if (currentRoute == "notifications") Color(0xFFA4D41C) else Color.Gray
                 )
             },
             selected = currentRoute == "notifications",
@@ -105,9 +108,10 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    painter = painterResource(R.drawable.user),
+                    painter = painterResource(R.drawable.icon_user),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = if (currentRoute == "my_page") Color(0xFFA4D41C) else Color.Gray
                 )
             },
             selected = currentRoute == "my_page",

@@ -112,7 +112,7 @@ fun ArticleScreen(
                     text = "관련 기부 진행하기",
                     onClick = {
                         Toast.makeText(context, "관련 기부 진행하기 버튼 클릭됨!", Toast.LENGTH_SHORT).show()
-                        navController.navigate("donation_detail_screen")
+                        navController.navigate("donation_detail_screen/$imageRes/$title/$description")
                     }
                 )
             }
